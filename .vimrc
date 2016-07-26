@@ -10,12 +10,11 @@ call plug#begin('~/.vim/plugged')
 Plug 'mileszs/ack.vim'
 Plug 'ervandew/supertab' " of dubious utility
 Plug 'kien/ctrlp.vim'
-" Plug 'davidhalter/jedi-vim.git' " seemed to have serious performance issues
-Plug 'phleet/vim-mercenary' " mercurial stuff (blaming, etc.)
-Plug 'hynek/vim-python-pep8-indent'
-Plug 'scrooloose/syntastic'
-Plug 'mxw/vim-jsx'
-Plug 'pangloss/vim-javascript'
+Plug 'phleet/vim-mercenary'          " mercurial stuff (blaming, etc.)
+Plug 'hynek/vim-python-pep8-indent'  " python indentation per pep8
+Plug 'scrooloose/syntastic'          " syntax highlighting, flake8, etc.
+Plug 'mxw/vim-jsx'                   " jsx syntax and highlighting
+Plug 'pangloss/vim-javascript'       " better js syntax and highlighting
 Plug 'kana/vim-textobj-user'
 Plug 'bps/vim-textobj-python'
 Plug 'Chun-Yang/vim-textobj-chunk' " {}, [], ()
@@ -81,7 +80,8 @@ let g:syntastic_python_flake8_args = "--ignore=E501" " ignore line length flake8
 let g:syntastic_javascript_checkers = ['eslint']
 
 " Override eslint with local version where necessary.
-let local_eslint = finddir('node_modules', '*;') . '/.bin/eslint'
+" requries npm install -g eslint
+let local_eslint = finddir('node_modules', '') . '/.bin/eslint'
 if matchstr(local_eslint, "^\/\\w") == ''
  let local_eslint = getcwd() . "/" . local_eslint
 endif
@@ -127,7 +127,7 @@ nnoremap - :Ex<cr>
 " ================ Ack ==============================
 " use ack instead of grep
 set grepprg=ack
-let g:ackprg = 'ag --nogroup --nocolor --column --ignore migrations' " Use ag instead of ack
+let g:ackprg = 'ag --nogroup --nocolor --column --ignore migrations --ignore node_modules' " Use ag instead of ack
 " leader-e to edit in current dir
 map <Leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
 " leader-a to :Ack!
@@ -153,6 +153,10 @@ let g:ctrlp_user_command = 'ag %s -i --nocolor --nogroup --hidden
       \ -g ""'
 set wildignore+=*.pyc
 
+" ================ FZF Experimental settings ========
+noremap <Leader>f :Files<CR>
+noremap <Leader>b :Buffers<CR>
+
 " ================ Explorer =========================
 let g:netrw_list_hide= '.*\.swp$,.*\.swp\s,.pyc$,.pyc\s,.*\.swo$,.*\.swo\s' " Cycle with 'a'
 let g:netrw_liststyle = 1 " Tree-like explorer (cycle through with 'i')
@@ -168,5 +172,5 @@ autocmd BufWritePre * :%s/\s\+$//e
 :autocmd FileType python     nnoremap <buffer> <localleader>c I#<esc>
 
 " == Temp ===
-let g:zenburn_high_Contrast=1
+let g:zenburn_high_contrast=1
 colorscheme zenburn
