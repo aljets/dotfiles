@@ -8,48 +8,38 @@ filetype on " to exit system status 1. required for fish shell
 filetype off " for syntastic
 call plug#begin('~/.vim/plugged')
 Plug 'mileszs/ack.vim'
-Plug 'ervandew/supertab' " of dubious utility
 Plug 'kien/ctrlp.vim'
-Plug 'phleet/vim-mercenary'          " mercurial stuff (blaming, etc.)
+Plug 'phleet/vim-mercenary'          " mercurial stuff (`:hg blame`, etc.)
 Plug 'hynek/vim-python-pep8-indent'  " python indentation per pep8
 Plug 'scrooloose/syntastic'          " syntax highlighting, flake8, etc.
 Plug 'mxw/vim-jsx'                   " jsx syntax and highlighting
 Plug 'pangloss/vim-javascript'       " better js syntax and highlighting
-Plug 'kana/vim-textobj-user'
-Plug 'bps/vim-textobj-python'
-Plug 'Chun-Yang/vim-textobj-chunk' " {}, [], ()
+Plug 'kana/vim-textobj-user'         " required for custom text object plugins
+Plug 'bps/vim-textobj-python'        " provides af/if/ac/ic for selecting classes and functions and [pf, ]pf, [pc, ]pc for next/previous function/class
 " trial plugins
+Plug 'ervandew/supertab'             " of dubious utility
+Plug 'Chun-Yang/vim-textobj-chunk'   " provides generic ac/ic. presumably interfereces with textobj-python
 Plug 'tpope/vim-surround' " looks extremely useful, once familiar add tpope's /vim-repeat
-Plug 'sjbach/lusty' " prob use :ls and :b<#> instead for a while while I get my bearings. requires set hidden
+Plug 'sjbach/lusty' " requires set hidden
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 call plug#end()
 filetype on
 
-" ================ Old Ruby Plugins ==================
-" For textobj-rubyblock
-  " Plugin 'kana/vim-textobj-user'
-  " Plugin 'nelstrom/vim-textobj-rubyblock'
-    " required for textobj-rubyblock
-    " runtime macros/matchit.vim
-" Plugin 'tpope/vim-rails'
-" Plugin 'slim-template/vim-slim'
-"
-
 " ================ General Config ====================
 let &t_Co=256
-colorscheme wombat256
-set colorcolumn=101
+let g:zenburn_high_Contrast=1
+colorscheme zenburn            " formerly: wombat256
+set colorcolumn=101            " line length indicator
 highlight colorcolumn ctermbg=0 guibg=Black
-set ruler " Column/row indicator in status bar
-set number " Show columns on left
-set relativenumber " Show columns relative
-set cursorline " Highlight current
+set ruler                      " Column/row indicator in status bar
+set number                     " Show columns on left
+set relativenumber             " Show columns relative
+set cursorline                 " Highlight current
 set history=256
-set laststatus=2 " Always show bottom status bar (filename, ruler, etc.)
-" set showbreak=⇇
+set laststatus=2               " Always show bottom status bar (filename, ruler, etc.)
 set backspace=indent,eol,start " Make backspace work
-set nobackup " No backup files
+set nobackup                   " No backup files
 
 " ================ Search ===========================
 set ignorecase
@@ -170,7 +160,3 @@ autocmd BufWritePre * :%s/\s\+$//e
 " ================ Helpers ===========================
 :autocmd FileType javascript nnoremap <buffer> <localleader>c I//<esc>
 :autocmd FileType python     nnoremap <buffer> <localleader>c I#<esc>
-
-" == Temp ===
-let g:zenburn_high_contrast=1
-colorscheme zenburn
