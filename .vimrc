@@ -17,7 +17,9 @@ Plug 'pangloss/vim-javascript'       " better js syntax and highlighting
 Plug 'kana/vim-textobj-user'         " required for custom text object plugins
 Plug 'bps/vim-textobj-python'        " provides af/if/ac/ic for selecting classes and functions and [pf, ]pf, [pc, ]pc for next/previous function/class
 " trial plugins
+Plug 'ap/vim-css-color'              " css colors
 Plug 'ervandew/supertab'             " of dubious utility
+Plug 'easymotion/vim-easymotion'     " of dubious utility
 Plug 'Chun-Yang/vim-textobj-chunk'   " provides generic ac/ic. presumably interfereces with textobj-python
 Plug 'tpope/vim-surround' " looks extremely useful, once familiar add tpope's /vim-repeat
 Plug 'sjbach/lusty' " requires set hidden
