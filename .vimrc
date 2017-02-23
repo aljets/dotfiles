@@ -10,15 +10,19 @@ call plug#begin('~/.vim/plugged')
 Plug 'mileszs/ack.vim'
 Plug 'kien/ctrlp.vim'
 Plug 'phleet/vim-mercenary'          " mercurial stuff (`:hg blame`, etc.)
+Plug 'ervandew/supertab'             " one day consider replacing this with a mapping of Ctrl-N
+
+" Motion plugins
+Plug 'kana/vim-textobj-user'         " required for custom text object plugins
+Plug 'bps/vim-textobj-python'        " provides af/if/ac/ic for selecting classes and functions and [pf, ]pf, [pc, ]pc for next/previous function/class
+
+" syntax plugins
 Plug 'hynek/vim-python-pep8-indent'  " python indentation per pep8
 Plug 'scrooloose/syntastic'          " syntax highlighting, flake8, etc.
 Plug 'mxw/vim-jsx'                   " jsx syntax and highlighting
 Plug 'pangloss/vim-javascript'       " better js syntax and highlighting
-Plug 'kana/vim-textobj-user'         " required for custom text object plugins
-Plug 'bps/vim-textobj-python'        " provides af/if/ac/ic for selecting classes and functions and [pf, ]pf, [pc, ]pc for next/previous function/class
+
 " trial plugins
-Plug 'ap/vim-css-color'              " css colors
-Plug 'ervandew/supertab'             " of dubious utility
 Plug 'easymotion/vim-easymotion'     " of dubious utility
 Plug 'Chun-Yang/vim-textobj-chunk'   " provides generic ac/ic. presumably interfereces with textobj-python
 Plug 'tpope/vim-surround' " looks extremely useful, once familiar add tpope's /vim-repeat
@@ -68,11 +72,11 @@ syntax on
 filetype indent on
 filetype plugin on
 let g:jsx_ext_required = 0 " Allow JSX in normal JS files, used with vim-jsx plugin
-let g:syntastic_python_flake8_args = "--ignore=E501" " ignore line length flake8 check
 let g:syntastic_javascript_checkers = ['eslint']
+let g:syntastic_python_python_exec = '/usr/local/bin/python3.5' " requires flake8 install
+let g:syntastic_python_flake8_args = '--ignore=E501 --exclude=.tox' " ignore line length flake8 check
 
-" Override eslint with local version where necessary.
-" requries npm install -g eslint
+" Override eslint with local version where necessary. Requries npm install -g eslint
 let local_eslint = finddir('node_modules', '') . '/.bin/eslint'
 if matchstr(local_eslint, "^\/\\w") == ''
  let local_eslint = getcwd() . "/" . local_eslint
@@ -80,7 +84,6 @@ endif
 if executable(local_eslint)
  let g:syntastic_javascript_eslint_exec = local_eslint
 endif
-
 let g:syntastic_always_populate_loc_list = 1 "  Stick any detected errors into the location-list (e.g. use :lprevious and :lnext)
 
 " ================ Remap ============================
@@ -100,19 +103,14 @@ nnoremap <Leader>e :e <C-R>=expand('%:p:h') . '/'<CR>
 " TEMP COMMENT OUT SO I DON'T USE TABS nnoremap <Leader>t :tabnew <C-R>=expand('%:p:h') . '/'<CR>
 nnoremap <Leader>x :sp <C-R>=expand('%:p:h') . '/'<CR>
 nnoremap <Leader>v :vs <C-R>=expand('%:p:h') . '/'<CR>
-" With the default backslash leader key, pressing ,l will highlight the line
-" that currently contains the cursor. The mapping also sets mark l so you can
-" type 'l to return to the highlighted line. Enter :match to clear the
-" highlighting when finished.
-nnoremap <silent> <Leader>l ml:execute 'match Search /\%'.line('.').'l/'<CR>
+" Un-highlight highlighted words
+nmap <silent> <leader>/ :silent :nohlsearch<CR>
 " Copy paragraph and paste below
 noremap cp yap<S-}>p
 " This mapping makes macros even easier to remember: hit qq to record, q to stop recording, and Q to apply.
 " This mapping also allows you to play macros across a visual selection with Q.
 nnoremap Q @q
 vnoremap Q :norm @q<cr>
-" Un-highlight highlighted words
-nmap <silent> <leader>/ :silent :nohlsearch<CR>
 " Go to explorer with '-'
 nnoremap - :Ex<cr>
 
@@ -146,19 +144,40 @@ let g:ctrlp_user_command = 'ag %s -i --nocolor --nogroup --hidden
 set wildignore+=*.pyc
 
 " ================ FZF Experimental settings ========
-noremap <Leader>f :Files<CR>
 noremap <Leader>b :Buffers<CR>
+noremap <Leader>m :Marks<CR>
+noremap <Leader>a :Ag!
+noremap <Leader>g :call fzf#run({'source': 'ag -g ""'})<CR>
+noremap <Leader>f :Files<CR>
+" let g:fzf_files_options = '--preview "cat {} 2> /dev/null | head -'.&lines.'"'    " But doesn't use source
+" let g:fzf_files_options = '--preview "cat {} 2> /dev/null | head -'.&lines.'"'    " But doesn't use source
+
+autocmd VimEnter * command! -bang -nargs=* Ag
+\    call fzf#vim#ag(<q-args>,
+\       <bang>0 ? fzf#vim#with_preview('up:60%')
+\      : fzf#vim#with_preview('right:50%:hidden', '?'),
+\       <bang>0)
 
 " ================ Explorer =========================
-let g:netrw_list_hide= '.*\.swp$,.*\.swp\s,.pyc$,.pyc\s,.*\.swo$,.*\.swo\s' " Cycle with 'a'
+let g:netrw_list_hide= '\.s.*,.*\.swp$,.*\.swp\s,.pyc$,.pyc\s,.*\.swo$,.*\.swo\s' " Cycle with 'a'
 let g:netrw_liststyle = 1 " Tree-like explorer (cycle through with 'i')
 let g:netrw_banner = 0 " Remove banner (cycle through with 'I')
 
 " ================ Autocommands ======================
 " Strip whitespace on save
 autocmd BufWritePre * :%s/\s\+$//e
-" autocmd FileType python,javascript,javascript.jsx,jsx autocmd BufWritePre <buffer> :%s/\s\+$//e
 
 " ================ Helpers ===========================
 :autocmd FileType javascript nnoremap <buffer> <localleader>c I//<esc>
 :autocmd FileType python     nnoremap <buffer> <localleader>c I#<esc>
+
+" trial stuff
+" dsfkfdkfdksfkds_dfsfdskfld_fdsfsd
+"                   ^ da_
+" dsfkfdkfdksfkdsfdsfsd
+for char in [ '_', '.', ':', ',', ';', '<bar>', '/', '<bslash>', '*', '+', '%', '`' ]
+    execute 'xnoremap i' . char . ' :<C-u>normal! T' . char . 'vt' . char . '<CR>'
+    execute 'onoremap i' . char . ' :normal vi' . char . '<CR>'
+    execute 'xnoremap a' . char . ' :<C-u>normal! F' . char . 'vf' . char . '<CR>'
+    execute 'onoremap a' . char . ' :normal va' . char . '<CR>'
+endfor
