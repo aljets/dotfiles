@@ -7,10 +7,13 @@ set nocompatible
 filetype on " to exit system status 1. required for fish shell
 filetype off " for syntastic
 call plug#begin('~/.vim/plugged')
-Plug 'mileszs/ack.vim'
-Plug 'kien/ctrlp.vim'
-Plug 'phleet/vim-mercenary'          " mercurial stuff (`:hg blame`, etc.)
 Plug 'ervandew/supertab'             " one day consider replacing this with a mapping of Ctrl-N
+
+" File plugins
+Plug 'mileszs/ack.vim'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
+Plug 'phleet/vim-mercenary'          " mercurial stuff (`:hg blame`, etc.)
 
 " Motion plugins
 Plug 'kana/vim-textobj-user'         " required for custom text object plugins
@@ -27,8 +30,6 @@ Plug 'easymotion/vim-easymotion'     " of dubious utility
 Plug 'Chun-Yang/vim-textobj-chunk'   " provides generic ac/ic. presumably interfereces with textobj-python
 Plug 'tpope/vim-surround' " looks extremely useful, once familiar add tpope's /vim-repeat
 Plug 'sjbach/lusty' " requires set hidden
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-Plug 'junegunn/fzf.vim'
 call plug#end()
 filetype on
 
@@ -42,7 +43,7 @@ set ruler                      " Column/row indicator in status bar
 set number                     " Show columns on left
 set relativenumber             " Show columns relative
 set cursorline                 " Highlight current
-set history=256
+set history=256                " Length of history
 set laststatus=2               " Always show bottom status bar (filename, ruler, etc.)
 set backspace=indent,eol,start " Make backspace work
 set nobackup                   " No backup files
@@ -50,21 +51,21 @@ set nobackup                   " No backup files
 " ================ Search ===========================
 set ignorecase
 set smartcase
-set incsearch
-set hlsearch
-set hidden " allow modified buffers to be hidden, required by lustyexplorer and maybe simply ok?
+set incsearch  " Move cursor to matched string when searching
+set hlsearch   " Highlights matches
+set hidden     " allow modified buffers to be hidden, required by lustyexplorer and maybe simply ok?
 
 " ================ Indentation ======================
-set tabstop=4
-set shiftwidth=4
-set softtabstop=4
-set expandtab " Tabs are spaces
-set smarttab " Inserts blanks in front of line according to shiftwidth
+set tabstop=4     " Tab width
+set shiftwidth=4  " Width for `>>`, `<<`, `==` commands and automatic indentation
+set expandtab     " Tabs are spaces
+"set softtabstop=4 Tab is 4 spaces.  I think not necessary when expandtab and tabstop are set
+"set smarttab     " Inserts blanks in front of line according to shiftwidth to line up line starts
 set autoindent
 
 " ================ Navigation ========================
-set splitbelow " Open new split panes below
-set splitright " Open new split panes to right
+set splitbelow       " Open new split panes below
+set splitright       " Open new split panes to right
 set switchbuf=usetab " If a buffer is open in another tab, go to that instead of editing in current tab
 
 " ================ Syntax ===========================
@@ -86,6 +87,8 @@ if executable(local_eslint)
 endif
 let g:syntastic_always_populate_loc_list = 1 "  Stick any detected errors into the location-list (e.g. use :lprevious and :lnext)
 
+set wildignore+=*.pyc
+
 " ================ Remap ============================
 let mapleader=","
 let maplocalleader="\\"
@@ -98,11 +101,6 @@ nnoremap <C-H> <C-W><C-H>
 noremap <Leader>w :w<CR>
 noremap <Leader>q :q<CR>
 noremap <Leader>x :x<CR>
-" Open file in same directory shortcuts
-nnoremap <Leader>e :e <C-R>=expand('%:p:h') . '/'<CR>
-" TEMP COMMENT OUT SO I DON'T USE TABS nnoremap <Leader>t :tabnew <C-R>=expand('%:p:h') . '/'<CR>
-nnoremap <Leader>x :sp <C-R>=expand('%:p:h') . '/'<CR>
-nnoremap <Leader>v :vs <C-R>=expand('%:p:h') . '/'<CR>
 " Un-highlight highlighted words
 nmap <silent> <leader>/ :silent :nohlsearch<CR>
 " Copy paragraph and paste below
@@ -125,23 +123,9 @@ map <Leader>a :Ack!
 " leader-s to :Ack! current buffer dir
 " map <Leader>s :Ack! <C-R>=expand("%:p:h")<CR>
 " HG BLAME
+"
+" ================ Various Plugins ==================
 noremap <Leader>h :HGblame<CR>
-
-" ================ Ctrl-P ============================
-set runtimepath^=~/.vim/bundle/ctrlp.vim
-" For use with git: let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files . -co --exclude-standard', 'find %s -type f']
-nnoremap <leader>z :CtrlPBuffer<CR>
-
-let g:ctrlp_use_caching = 0
-let g:ctrlp_working_path_mode = 'r' " open ctrlp in repository directory, set to blank to open in dir of current file
-let g:ctrlp_user_command = 'ag %s -i --nocolor --nogroup --hidden
-      \ --ignore .git
-      \ --ignore .svn
-      \ --ignore .hg
-      \ --ignore .DS_Store
-      \ --ignore "**/*.pyc"
-      \ -g ""'
-set wildignore+=*.pyc
 
 " ================ FZF Experimental settings ========
 noremap <Leader>b :Buffers<CR>
@@ -164,14 +148,14 @@ let g:netrw_liststyle = 1 " Tree-like explorer (cycle through with 'i')
 let g:netrw_banner = 0 " Remove banner (cycle through with 'I')
 
 " ================ Autocommands ======================
-" Strip whitespace on save
-autocmd BufWritePre * :%s/\s\+$//e
+autocmd BufWritePre * :%s/\s\+$//e   " Strip whitespace on save
 
 " ================ Helpers ===========================
 :autocmd FileType javascript nnoremap <buffer> <localleader>c I//<esc>
 :autocmd FileType python     nnoremap <buffer> <localleader>c I#<esc>
 
-" trial stuff
+" ================ Test Stuff ========================
+"
 " dsfkfdkfdksfkds_dfsfdskfld_fdsfsd
 "                   ^ da_
 " dsfkfdkfdksfkdsfdsfsd
@@ -184,3 +168,10 @@ endfor
 
 set directory=~/.vimbackup//
 set backupdir=~/.vimbackup//
+
+" ============== Recycle Bin ==========================
+" Open file in same directory shortcuts
+nnoremap <Leader>e :e <C-R>=expand('%:p:h') . '/'<CR>
+" TEMP COMMENT OUT SO I DON'T USE TABS nnoremap <Leader>t :tabnew <C-R>=expand('%:p:h') . '/'<CR>
+nnoremap <Leader>x :sp <C-R>=expand('%:p:h') . '/'<CR>
+nnoremap <Leader>v :vs <C-R>=expand('%:p:h') . '/'<CR>
