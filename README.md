@@ -24,10 +24,11 @@ of very useful vim commands that I've found over the years. A tiny smattering:
 * `Le(xplore)`
     * `Netrw` explorer window with changes made to window to (right pane)
 * `register`
-    * Beyond useful. .e.g. `"kyy` to store a line in `k`, then `"kp` to paste. `<ctrl-r>k` to paste in commands and search.
+    * `"kyy` to store a line in `k`, then `"kp` to paste. `<ctrl-r>k
+    * Register `:` holds the last command, `/` the last search. .e.g. `":p` to paste the last command, `"/p` the last search.`
 * `marks`
 * `q:`
-    * command line w/ history
+    * `q:` (or `:CTRL-F`) for command line w/ history, `q\` (or `\CTRL-F`) for searches.
 
 
 vim todo
