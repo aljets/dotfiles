@@ -7,7 +7,6 @@ set nocompatible
 filetype on " to exit system status 1. required for fish shell
 filetype off " for syntastic
 call plug#begin('~/.vim/plugged')
-Plug 'ervandew/supertab'             " one day consider replacing this with a mapping of Ctrl-N
 
 " File plugins
 Plug 'mileszs/ack.vim'
@@ -18,6 +17,7 @@ Plug 'phleet/vim-mercenary'          " mercurial stuff (`:hg blame`, etc.)
 " Motion plugins
 Plug 'kana/vim-textobj-user'         " required for custom text object plugins
 Plug 'bps/vim-textobj-python'        " provides af/if/ac/ic for selecting classes and functions and [pf, ]pf, [pc, ]pc for next/previous function/class
+Plug 'ervandew/supertab'             " one day consider replacing this with a mapping of Ctrl-N
 
 " syntax plugins
 Plug 'hynek/vim-python-pep8-indent'  " python indentation per pep8
@@ -127,11 +127,11 @@ map <Leader>a :Ack!
 " ================ Various Plugins ==================
 noremap <Leader>h :HGblame<CR>
 
-" ================ FZF Experimental settings ========
+" ================ FZF settings ========
+" Reminder old fzf settings for use with git: let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files . -co --exclude-standard', 'find %s -type f']
 noremap <Leader>b :Buffers<CR>
 noremap <Leader>m :Marks<CR>
 noremap <Leader>a :Ag!
-noremap <Leader>g :call fzf#run({'source': 'ag -g ""'})<CR>
 noremap <Leader>f :Files<CR>
 " let g:fzf_files_options = '--preview "cat {} 2> /dev/null | head -'.&lines.'"'    " But doesn't use source
 " let g:fzf_files_options = '--preview "cat {} 2> /dev/null | head -'.&lines.'"'    " But doesn't use source
