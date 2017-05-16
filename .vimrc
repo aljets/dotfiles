@@ -120,10 +120,7 @@ let g:ackprg = 'ag --nogroup --nocolor --column --ignore migrations --ignore nod
 map <Leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
 " leader-a to :Ack!
 map <Leader>a :Ack!
-" leader-s to :Ack! current buffer dir
-" map <Leader>s :Ack! <C-R>=expand("%:p:h")<CR>
-" HG BLAME
-"
+
 " ================ Various Plugins ==================
 noremap <Leader>h :HGblame<CR>
 

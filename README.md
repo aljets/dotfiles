@@ -1,7 +1,7 @@
 vim
 ===
-Hopefully my `.vimrc` documents custom mappings and plugins useful enough. But there are a number
-of very useful vim commands that I've found over the years. A tiny smattering:
+
+A very small list of useful vim commands. Assumes basic vim proficiency.
 
 * `jumplist`: `CTRL-O` (older), `CTRL-I`/`<Tab>` (newer)
     * vim tracks jumps within windows, allowing navigation to and from previous files and positions
@@ -17,11 +17,11 @@ of very useful vim commands that I've found over the years. A tiny smattering:
     * `#` searches for keyword under cursor backward, `*` searches forward
 * `g`
     * [some cool examples](http://vim.wikia.com/wiki/Power_of_g)
-* `earlier` and `later`
+* `:earlier` and `:later`
     * `:earlier 30m`, `:later 3h 22m`
 * `gf`
     * go to file. Works for local paths for python, javascript, etc.
-* `Le(xplore)`
+* `:Le(xplore)`
     * `Netrw` explorer window with changes made to window to (right pane)
 * `register`
     * `"kyy` to store a line in `k`, then `"kp` to paste. `<ctrl-r>k
@@ -29,6 +29,8 @@ of very useful vim commands that I've found over the years. A tiny smattering:
 * `marks`
 * `q:`, `q\`
     * `q:` (or `:CTRL-F`) for command line w/ history, `q\` (or `\CTRL-F`) for searches.
+* `CTRL-R CTRL-W`, `CTRL-R CTRL-0`
+    * Inserts the current word under the cursor and the most recent item yanked, respectively
 
 
 vim todo
