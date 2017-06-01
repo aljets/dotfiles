@@ -18,6 +18,7 @@ Plug 'phleet/vim-mercenary'          " mercurial stuff (`:hg blame`, etc.)
 Plug 'kana/vim-textobj-user'         " required for custom text object plugins
 Plug 'bps/vim-textobj-python'        " provides af/if/ac/ic for selecting classes and functions and [pf, ]pf, [pc, ]pc for next/previous function/class
 Plug 'ervandew/supertab'             " one day consider replacing this with a mapping of Ctrl-N
+Plug 'tpope/vim-unimpaired'          " [<Space>, ]<Space> to add newlines and other handy bracket mappings
 
 " syntax plugins
 Plug 'hynek/vim-python-pep8-indent'  " python indentation per pep8
@@ -59,7 +60,7 @@ set hidden     " allow modified buffers to be hidden, required by lustyexplorer 
 set tabstop=4     " Tab width
 set shiftwidth=4  " Width for `>>`, `<<`, `==` commands and automatic indentation
 set expandtab     " Tabs are spaces
-"set softtabstop=4 Tab is 4 spaces.  I think not necessary when expandtab and tabstop are set
+set softtabstop=4 " Tab is 4 spaces. Allows backspacing of tabs.
 "set smarttab     " Inserts blanks in front of line according to shiftwidth to line up line starts
 set autoindent
 
