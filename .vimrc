@@ -68,8 +68,17 @@ set autoindent
 set splitbelow       " Open new split panes below
 set splitright       " Open new split panes to right
 set switchbuf=usetab " If a buffer is open in another tab, go to that instead of editing in current tab
+set wildmenu         " Tab completion shows items available
 
-" ================ Syntax ===========================
+" ================ Format ============================
+set formatoptions+=j " Delete comment character when joining commented lines
+
+" ================ Syntax ============================
+" Better :list format
+if &listchars ==# 'eol:$'
+  set listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+
+endif
+
 syntax on
 filetype indent on
 filetype plugin on

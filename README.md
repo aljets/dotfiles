@@ -31,6 +31,7 @@ A very small list of useful vim commands. Assumes basic vim proficiency.
     * `q:` (or `:CTRL-F`) for command line w/ history, `q\` (or `\CTRL-F`) for searches.
 * `CTRL-R CTRL-W`, `CTRL-R CTRL-0`
     * Inserts the current word under the cursor and the most recent item yanked, respectively
+* `gqip`
 
 
 vim todo
