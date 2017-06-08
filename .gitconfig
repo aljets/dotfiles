@@ -1,0 +1,2 @@
+[alias]
+    l = log --graph --pretty=format:'%Cgreen%h %Creset%C(bold black)%cd (%cr) %C(cyan)%an: %C(yellow)%d%Creset%s %Creset' --date=format-local:'%a, %d %b %Y %H:%M:%S'
