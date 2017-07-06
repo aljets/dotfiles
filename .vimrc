@@ -13,12 +13,14 @@ Plug 'mileszs/ack.vim'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'phleet/vim-mercenary'          " mercurial stuff (`:hg blame`, etc.)
+Plug 'tpope/vim-fugitive'
 
 " Motion plugins
 Plug 'kana/vim-textobj-user'         " required for custom text object plugins
 Plug 'bps/vim-textobj-python'        " provides af/if/ac/ic for selecting classes and functions and [pf, ]pf, [pc, ]pc for next/previous function/class
 Plug 'ervandew/supertab'             " one day consider replacing this with a mapping of Ctrl-N
 Plug 'tpope/vim-unimpaired'          " [<Space>, ]<Space> to add newlines and other handy bracket mappings
+Plug 'tpope/vim-commentary'          " `gcc` comments out a line, `gcap`, etc.
 
 " syntax plugins
 Plug 'hynek/vim-python-pep8-indent'  " python indentation per pep8
@@ -54,7 +56,7 @@ set ignorecase
 set smartcase
 set incsearch  " Move cursor to matched string when searching
 set hlsearch   " Highlights matches
-set hidden     " allow modified buffers to be hidden, required by lustyexplorer and maybe simply ok?
+set hidden     " allow modified buffers to be hidden, required by lustyexplorer and maybe simply ok; without this warned if open new file in buffer without saving
 
 " ================ Indentation ======================
 set tabstop=4     " Tab width
@@ -132,7 +134,7 @@ map <Leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
 map <Leader>a :Ack!
 
 " ================ Various Plugins ==================
-noremap <Leader>h :HGblame<CR>
+noremap <Leader>g :Gblame<CR>
 
 " ================ FZF settings ========
 " Reminder old fzf settings for use with git: let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files . -co --exclude-standard', 'find %s -type f']
