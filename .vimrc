@@ -86,7 +86,8 @@ filetype indent on
 filetype plugin on
 let g:jsx_ext_required = 0 " Allow JSX in normal JS files, used with vim-jsx plugin
 let g:syntastic_javascript_checkers = ['eslint']
-let g:syntastic_python_python_exec = '/usr/local/bin/python3.6' " requires flake8 install
+let g:syntastic_python_python_exec = 'python3.6'
+let g:syntastic_python_flake8_exec = 'python3.6' " Requires flake8 install
 let g:syntastic_python_flake8_args = '--ignore=E501 --exclude=.tox' " ignore line length flake8 check
 
 " Override eslint with local version where necessary. Requries npm install -g eslint
