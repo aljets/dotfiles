@@ -178,6 +178,8 @@ endfor
 
 set directory=~/.vimbackup//
 set backupdir=~/.vimbackup//
+" neovim terminal remap
+" tnoremap <ESC> <C-\><C-n>
 
 " ============== Recycle Bin ==========================
 " Open file in same directory shortcuts
