@@ -15,6 +15,15 @@ function vs
     ssh -Y -i $vagrant_private_key -p 2222 vagrant@127.0.0.1
 end
 
+function fc
+    set filename command-(date +%s).sh
+    touch /tmp/$filename
+    echo $history[1] >> /tmp/$filename
+    vim /tmp/$filename
+    eval (cat /tmp/$filename)  # or fish /tmp/$filename
+    rm /tmp/$filename
+end
+
 function fish_prompt
     echo -n (prompt_pwd)
     if test -d .hg
