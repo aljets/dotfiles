@@ -24,6 +24,13 @@ function fc
     rm /tmp/$filename
 end
 
+function xe
+    set filename command-(date +%s).sh
+    vim /tmp/$filename
+    eval (cat /tmp/$filename)  # or fish /tmp/$filename
+    rm /tmp/$filename
+end
+
 function fish_prompt
     echo -n (prompt_pwd)
     if test -d .hg
@@ -42,6 +49,8 @@ end
 set -x FZF_DEFAULT_COMMAND 'ag -g ""'
 # Allow vim-style page up/down
 set -x FZF_DEFAULT_OPTS '--bind=ctrl-d:page-down,ctrl-u:page-up'
+
+alias py36='source ~/.virtualenvs/py36/bin/activate.fish'
 
 # Not sure how useful these are
 alias gs='git status '
