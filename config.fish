@@ -1,3 +1,5 @@
+set -gx EDITOR vim
+
 # Need to spend time cleaning this up
 
 set __fish_git_prompt_showdirtystate 'yes'
@@ -16,19 +18,18 @@ function vs
 end
 
 function fc
-    set filename command-(date +%s).sh
-    touch /tmp/$filename
-    echo $history[1] >> /tmp/$filename
-    vim /tmp/$filename
-    eval (cat /tmp/$filename)  # or fish /tmp/$filename
-    rm /tmp/$filename
+    set -l tmpfile (mktemp)
+    echo $history[1] >> $tmpfile
+    eval $EDITOR $tmpfile
+    fish -c (cat $tmpfile)  # or fish $tmpfile, or eval (cat $tmpfile), or commandline -r -- (cat $tmpfile) if don't want to execute
+    rm $tmpfile
 end
 
 function xe
-    set filename command-(date +%s).sh
-    vim /tmp/$filename
-    eval (cat /tmp/$filename)  # or fish /tmp/$filename
-    rm /tmp/$filename
+    set -l tmpfile (mktemp)
+    eval $EDITOR $tmpfile
+    fish -c (cat $tmpfile)  # or fish $tmpfile, or eval (cat $tmpfile), or commandline -r -- (cat $tmpfile) if don't want to execute
+    rm $tmpfile
 end
 
 function fish_prompt
