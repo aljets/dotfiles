@@ -159,6 +159,7 @@ let g:netrw_banner = 0 " Remove banner (cycle through with 'I')
 
 " ================ Autocommands ======================
 autocmd BufWritePre * :%s/\s\+$//e   " Strip whitespace on save
+autocmd FileType yaml setlocal shiftwidth=2 tabstop=2 softtabstop=2
 
 " ================ Helpers ===========================
 :autocmd FileType javascript nnoremap <buffer> <localleader>c I//<esc>
