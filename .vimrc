@@ -12,7 +12,6 @@ call plug#begin('~/.vim/plugged')
 Plug 'mileszs/ack.vim'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
-Plug 'phleet/vim-mercenary'          " mercurial stuff (`:hg blame`, etc.)
 Plug 'tpope/vim-fugitive'
 
 " Motion plugins
