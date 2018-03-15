@@ -1,3 +1,6 @@
+# ugly solution to getting env vars
+source ~/.privatefishconfig
+
 set -gx EDITOR vim
 
 # Need to spend time cleaning this up

@@ -26,20 +26,30 @@ A very small list of useful vim commands. Assumes basic vim proficiency.
     * go to file. Works for local paths for python, javascript, etc.
 * `:Le(xplore)`
     * `Netrw` explorer window with changes made to window to (right pane)
-* `register`
+* `reg(ister)`
+    * `reg` to access registers. If you yank and then yank again, your previous register is still stored!
     * `"kyy` to store a line in `k`, then `"kp` to paste. `<ctrl-r>k
-    * Register `:` holds the last command, `/` the last search. .e.g. `":p` to paste the last command, `"/p` the last search.`
+    "* Register `:` holds the last command, `/` the last search. .e.g. `":p` to paste the last command, `"/p` the last search.`
 * `marks`
 * `q:`, `q\`
     * `q:` (or `:CTRL-F`) for command line w/ history, `q\` (or `\CTRL-F`) for searches.
 * `CTRL-R CTRL-W`, `CTRL-R CTRL-0`
     * Inserts the current word under the cursor and the most recent item yanked, respectively
 * `gqip`
+* `:bd` removes buffer from open buffers
+* `ctrl-x`, `ctrl-l`
+    * whole line completion
 
 
 vim todo
 --------
-Investigate `:help changes`
+
+* Don't use `,` as leader!!! (probably space)
+* Investigate `:help changes`
+* Investigate `vimux`?
+* Consider `vim-sleuth`
+* Give `vim-sneak` another try (or `vim-seek`, commands like yrwp look
+  interesting, so does `clever-f`, possibly)
 
 
 git

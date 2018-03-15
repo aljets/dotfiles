@@ -9,10 +9,11 @@ filetype off " for syntastic
 call plug#begin('~/.vim/plugged')
 
 " File plugins
-Plug 'mileszs/ack.vim'
+Plug 'mileszs/ack.vim'               " what's the use of this with fzf? primary difference seems the ability to keep the drawer open with :Ack!
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'tpope/vim-fugitive'
+Plug 'shumphrey/fugitive-gitlab.vim'
 
 " Motion plugins
 Plug 'kana/vim-textobj-user'         " required for custom text object plugins
@@ -22,16 +23,15 @@ Plug 'tpope/vim-unimpaired'          " [<Space>, ]<Space> to add newlines and ot
 Plug 'tpope/vim-commentary'          " `gcc` comments out a line, `gcap`, etc.
 
 " syntax plugins
+Plug 'w0rp/ale'                      " better than syntastic (async)
 Plug 'hynek/vim-python-pep8-indent'  " python indentation per pep8
-Plug 'scrooloose/syntastic'          " syntax highlighting, flake8, etc.
-Plug 'mxw/vim-jsx'                   " jsx syntax and highlighting
 Plug 'pangloss/vim-javascript'       " better js syntax and highlighting
+Plug 'mxw/vim-jsx'                   " jsx syntax and highlighting
 
 " trial plugins
 Plug 'easymotion/vim-easymotion'     " of dubious utility
 Plug 'Chun-Yang/vim-textobj-chunk'   " provides generic ac/ic. presumably interfereces with textobj-python
 Plug 'tpope/vim-surround' " looks extremely useful, once familiar add tpope's /vim-repeat
-Plug 'sjbach/lusty' " requires set hidden
 call plug#end()
 filetype on
 
@@ -51,8 +51,8 @@ set backspace=indent,eol,start " Make backspace work
 set nobackup                   " No backup files
 
 " ================ Search ===========================
-set ignorecase
-set smartcase
+set ignorecase " Case-insensitive except when using uppercase
+set smartcase  " Case-insensitive except when using uppercase
 set incsearch  " Move cursor to matched string when searching
 set hlsearch   " Highlights matches
 set hidden     " allow modified buffers to be hidden, required by lustyexplorer and maybe simply ok; without this warned if open new file in buffer without saving
@@ -84,20 +84,8 @@ syntax on
 filetype indent on
 filetype plugin on
 let g:jsx_ext_required = 0 " Allow JSX in normal JS files, used with vim-jsx plugin
-let g:syntastic_javascript_checkers = ['eslint']
-let g:syntastic_python_python_exec = 'python3.6'
-let g:syntastic_python_flake8_exe = 'python3.6 -m flake8'  " Requires flake8 install
-let g:syntastic_python_flake8_args = '--ignore=E501 --exclude=.tox' " ignore line length flake8 check
-
-" Override eslint with local version where necessary. Requries npm install -g eslint
-let local_eslint = finddir('node_modules', '') . '/.bin/eslint'
-if matchstr(local_eslint, "^\/\\w") == ''
- let local_eslint = getcwd() . "/" . local_eslint
-endif
-if executable(local_eslint)
- let g:syntastic_javascript_eslint_exec = local_eslint
-endif
-let g:syntastic_always_populate_loc_list = 1 "  Stick any detected errors into the location-list (e.g. use :lprevious and :lnext)
+let g:ale_python_flake8_executable = 'python3.6'  " Requires flake8 install
+let g:ale_python_flake8_options = '-m flake8 --ignore=E501'  " Requires flake8 install
 
 set wildignore+=*.pyc
 
@@ -178,8 +166,10 @@ endfor
 
 set directory=~/.vimbackup//
 set backupdir=~/.vimbackup//
-" neovim terminal remap
-" tnoremap <ESC> <C-\><C-n>
+
+let g:fugitive_gitlab_domains = [$GITLAB_URL]
+" terminal remap escape
+tnoremap <ESC> <C-\><C-n>
 
 " ============== Recycle Bin ==========================
 " Open file in same directory shortcuts
@@ -187,3 +177,4 @@ nnoremap <Leader>e :e <C-R>=expand('%:p:h') . '/'<CR>
 " TEMP COMMENT OUT SO I DON'T USE TABS nnoremap <Leader>t :tabnew <C-R>=expand('%:p:h') . '/'<CR>
 nnoremap <Leader>x :sp <C-R>=expand('%:p:h') . '/'<CR>
 nnoremap <Leader>v :vs <C-R>=expand('%:p:h') . '/'<CR>
+
