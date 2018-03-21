@@ -1,5 +1,5 @@
-# ugly solution to getting env vars
-source ~/.privatefishconfig
+# ugly solution to getting env vars `$GITLAB_URL` and `$GIT_ROOT_ROOT`
+source ~/dotfiles/.privatefishconfig
 
 set -gx EDITOR vim
 
@@ -9,6 +9,12 @@ set __fish_git_prompt_showdirtystate 'yes'
 set __fish_git_prompt_showstashstate 'yes'
 set __fish_git_prompt_showupstream 'yes'
 set __fish_git_prompt_color_branch yellow
+
+
+function r
+    find $GIT_ROOT_ROOT -type d -name ".git" | python3.6 -c "import sys; [print('/'.join(line.split('/')[4:-1])) for line in sys.stdin]" | fzf | read -l target_dir; and cd $GIT_ROOT_ROOT/$target_dir
+end
+
 
 function git_branch
     git rev-parse --abbrev-ref HEAD 2> /dev/null
