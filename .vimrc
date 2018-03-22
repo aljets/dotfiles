@@ -130,14 +130,23 @@ noremap <Leader>b :Buffers<CR>
 noremap <Leader>m :Marks<CR>
 noremap <Leader>a :Ag!
 noremap <Leader>f :Files<CR>
-" let g:fzf_files_options = '--preview "cat {} 2> /dev/null | head -'.&lines.'"'    " But doesn't use source
-" let g:fzf_files_options = '--preview "cat {} 2> /dev/null | head -'.&lines.'"'    " But doesn't use source
 
+" TODO: make files/ag preview consistent and fast
+" Files command with preview window
+let g:fzf_files_options = '--preview "head -50 {} 2> /dev/null | head -'.&lines.'"'    " But doesn't use source
+let g:fzf_files_options = '--preview "head -50 {} 2> /dev/null | head -'.&lines.'"'    " But doesn't use source
+
+" Ag command with preview window (for some reason slightly slower than above
 autocmd VimEnter * command! -bang -nargs=* Ag
 \    call fzf#vim#ag(<q-args>,
 \       <bang>0 ? fzf#vim#with_preview('up:60%')
 \      : fzf#vim#with_preview('right:50%:hidden', '?'),
 \       <bang>0)
+
+" Files command with preview window
+" commented out in favor of fzf_files_options b/c files seem slow to load
+"command! -bang -nargs=? -complete=dir Files
+"  \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
 
 " ================ Explorer =========================
 let g:netrw_list_hide= '\.s.*,.*\.swp$,.*\.swp\s,.pyc$,.pyc\s,.*\.swo$,.*\.swo\s' " Cycle with 'a'
@@ -147,6 +156,8 @@ let g:netrw_banner = 0 " Remove banner (cycle through with 'I')
 " ================ Autocommands ======================
 autocmd BufWritePre * :%s/\s\+$//e   " Strip whitespace on save
 autocmd FileType yaml setlocal shiftwidth=2 tabstop=2 softtabstop=2
+" Override when individuals set `vim:ft=ansible` to files
+autocmd FileType ansible setlocal syntax=yaml
 
 " ================ Helpers ===========================
 :autocmd FileType javascript nnoremap <buffer> <localleader>c I//<esc>

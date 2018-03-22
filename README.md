@@ -44,6 +44,7 @@ A very small list of useful vim commands. Assumes basic vim proficiency.
 vim todo
 --------
 
+* Split language-specific things into language-specific files
 * Don't use `,` as leader!!! (probably space)
 * Investigate `:help changes`
 * Investigate `vimux`?
