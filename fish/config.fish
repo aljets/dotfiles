@@ -3,6 +3,10 @@ source ~/dotfiles/.privatefishconfig
 
 set -gx EDITOR vim
 
+# Add dotfiles subdir for fish function path
+set fish_function_path $fish_function_path ~/.config/fish/functions_from_dotfiles
+
+
 # Need to spend time cleaning this up
 
 set __fish_git_prompt_showdirtystate 'yes'
@@ -11,35 +15,10 @@ set __fish_git_prompt_showupstream 'yes'
 set __fish_git_prompt_color_branch yellow
 
 
-function r
-    find $GIT_ROOT_ROOT -type d -name ".git" | python3.6 -c "import sys; [print('/'.join(line.split('/')[4:-1])) for line in sys.stdin]" | fzf | read -l target_dir; and cd $GIT_ROOT_ROOT/$target_dir
-end
-
-
 function git_branch
     git rev-parse --abbrev-ref HEAD 2> /dev/null
 end
 
-# Way, way faster Vagrant SSH. Run vagrant ssh-config to find private key location.
-set vagrant_private_key '~/.vagrant.d/boxes/base/0/virtualbox/vagrant_private_key'
-function vs
-    ssh -Y -i $vagrant_private_key -p 2222 vagrant@127.0.0.1
-end
-
-function fc
-    set -l tmpfile (mktemp)
-    echo $history[1] >> $tmpfile
-    eval $EDITOR $tmpfile
-    fish -c (cat $tmpfile)  # or fish $tmpfile, or eval (cat $tmpfile), or commandline -r -- (cat $tmpfile) if don't want to execute
-    rm $tmpfile
-end
-
-function xe
-    set -l tmpfile (mktemp)
-    eval $EDITOR $tmpfile
-    fish -c (cat $tmpfile)  # or fish $tmpfile, or eval (cat $tmpfile), or commandline -r -- (cat $tmpfile) if don't want to execute
-    rm $tmpfile
-end
 
 function fish_prompt
     echo -n (prompt_pwd)
@@ -59,8 +38,6 @@ end
 set -x FZF_DEFAULT_COMMAND 'ag -g ""'
 # Allow vim-style page up/down
 set -x FZF_DEFAULT_OPTS '--bind=ctrl-d:page-down,ctrl-u:page-up'
-
-alias py36='source ~/.virtualenvs/py36/bin/activate.fish'
 
 # Not sure how useful these are
 alias gs='git status '
