@@ -4,8 +4,10 @@ set nocompatible
 " =============== Plugin Initialization ==============
 " First run: $ curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 " Install new plugins: :PlugInstall
-filetype on " to exit system status 1. required for fish shell
-filetype off " for syntastic
+"
+" Try commenting these out to see if have problems still.... (3/26/18)
+" filetype on " to exit system status 1. required for fish shell
+" filetype off " for syntastic
 call plug#begin('~/.vim/plugged')
 
 " File plugins

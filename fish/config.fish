@@ -1,52 +1,38 @@
 # ugly solution to getting env vars `$GITLAB_URL` and `$GIT_ROOT_ROOT`
 source ~/dotfiles/.privatefishconfig
 
+# Add dotfiles subdir for fish function path
+set fish_function_path ~/.config/fish/functions_from_dotfiles $fish_function_path
+
 set -gx EDITOR vim
 
-# Add dotfiles subdir for fish function path
-set fish_function_path $fish_function_path ~/.config/fish/functions_from_dotfiles
-
-
 # Need to spend time cleaning this up
-
+# I don't think these do anything since I'm not using the fish git prompt stuff
 set __fish_git_prompt_showdirtystate 'yes'
 set __fish_git_prompt_showstashstate 'yes'
 set __fish_git_prompt_showupstream 'yes'
 set __fish_git_prompt_color_branch yellow
 
-
-function git_branch
-    git rev-parse --abbrev-ref HEAD 2> /dev/null
-end
-
-
-function fish_prompt
-    echo -n (prompt_pwd)
-    if test -d .hg
-        echo -n '['(cat .hg/branch)']'
-    end
-    if set branch (git_branch)
-        echo -n [(set_color bryellow)$branch(set_color normal)]
-    end
-    echo -n '$ '
-    if set -q VIRTUAL_ENV
-        echo -n -s (set_color -b blue white) "(" (basename "$VIRTUAL_ENV") ")" (set_color normal) " "
-    end
-end
-
 # Faster FZF init
 set -x FZF_DEFAULT_COMMAND 'ag -g ""'
+
 # Allow vim-style page up/down
-set -x FZF_DEFAULT_OPTS '--bind=ctrl-d:page-down,ctrl-u:page-up'
+# Lighter-colored foreground text and background
+set -x FZF_DEFAULT_OPTS '
+    --bind=ctrl-d:page-down,ctrl-u:page-up
+    --color bg:234,fg:245
+    '
 
 # Not sure how useful these are
-alias gs='git status '
-alias ga='git add '
-alias gb='git branch '
-alias gc='git commit'
-alias gd='git diff --cached'
-alias go='git checkout '
-alias gp='git pull'
+if not set -q abbrs_initialized
+    abbr -a gs git status
+    abbr -a ga git add
+    abbr -a gb git branch
+    abbr -a gc git commit
+    abbr -a gd git diff --cached
+    abbr -a go git checkout
+    abbr -a gp git pull
+end
 
 # https://iterm2.com/documentation-shell-integration.html
 source ~/.iterm2_shell_integration.fish
@@ -74,6 +60,7 @@ set fish_color_user \x2do\x1egreen
 set fish_color_valid_path \x2d\x2dunderline
 set fish_greeting Welcome\x20to\x20fish\x2c\x20the\x20friendly\x20interactive\x20shell\x0aType\x20\x1b\x5b32mhelp\x1b\x5b30m\x1b\x28B\x1b\x5bm\x20for\x20instructions\x20on\x20how\x20to\x20use\x20fish
 set fish_key_bindings fish_default_key_bindings
+# set fish_key_bindings fish_vi_key_bindings
 set fish_pager_color_completion normal
 set fish_pager_color_description 555\x1eyellow
 set fish_pager_color_prefix cyan
