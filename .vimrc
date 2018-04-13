@@ -1,13 +1,10 @@
+" Goal: << 200 lines
 set shell=/bin/sh " while using fish
 set nocompatible
 
 " =============== Plugin Initialization ==============
 " First run: $ curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 " Install new plugins: :PlugInstall
-"
-" Try commenting these out to see if have problems still.... (3/26/18)
-" filetype on " to exit system status 1. required for fish shell
-" filetype off " for syntastic
 call plug#begin('~/.vim/plugged')
 
 " File plugins
@@ -20,7 +17,7 @@ Plug 'shumphrey/fugitive-gitlab.vim'
 " Motion plugins
 Plug 'kana/vim-textobj-user'         " required for custom text object plugins
 Plug 'bps/vim-textobj-python'        " provides af/if/ac/ic for selecting classes and functions and [pf, ]pf, [pc, ]pc for next/previous function/class
-Plug 'ervandew/supertab'             " one day consider replacing this with a mapping of Ctrl-N
+Plug 'ajh17/VimCompletesMe'          " one day consider replacing this with a mapping of Ctrl-N
 Plug 'tpope/vim-unimpaired'          " [<Space>, ]<Space> to add newlines and other handy bracket mappings
 Plug 'tpope/vim-commentary'          " `gcc` comments out a line, `gcap`, etc.
 
@@ -32,10 +29,9 @@ Plug 'mxw/vim-jsx'                   " jsx syntax and highlighting
 
 " trial plugins
 Plug 'easymotion/vim-easymotion'     " of dubious utility
-Plug 'Chun-Yang/vim-textobj-chunk'   " provides generic ac/ic. presumably interfereces with textobj-python
-Plug 'tpope/vim-surround' " looks extremely useful, once familiar add tpope's /vim-repeat
+Plug 'Chun-Yang/vim-textobj-chunk'   " provides generic ac/ic. presumably interferes with textobj-python
+Plug 'tpope/vim-surround'            " looks extremely useful, once familiar add tpope's /vim-repeat
 call plug#end()
-filetype on
 
 " ================ General Config ====================
 let &t_Co=256
@@ -49,22 +45,24 @@ set relativenumber             " Show columns relative
 set cursorline                 " Highlight current
 set history=256                " Length of history
 set laststatus=2               " Always show bottom status bar (filename, ruler, etc.)
-set backspace=indent,eol,start " Make backspace work
-set nobackup                   " No backup files
+set directory=~/.vimbackup//   " Change .swp files from being place in dir
+" set the dictionary, which allows things like tab completion of dictionary words
+set dictionary-=/usr/share/dict/words dictionary+=/usr/share/dict/words
 
 " ================ Search ===========================
 set ignorecase " Case-insensitive except when using uppercase
 set smartcase  " Case-insensitive except when using uppercase
 set incsearch  " Move cursor to matched string when searching
 set hlsearch   " Highlights matches
-set hidden     " allow modified buffers to be hidden, required by lustyexplorer and maybe simply ok; without this warned if open new file in buffer without saving
+set hidden     " allow modified buffers to be hidden, without this warned if open new file in buffer without saving
 
 " ================ Indentation ======================
-set tabstop=4     " Tab width
-set shiftwidth=4  " Width for `>>`, `<<`, `==` commands and automatic indentation
-set expandtab     " Tabs are spaces
-set softtabstop=4 " Tab is 4 spaces. Allows backspacing of tabs.
-"set smarttab     " Inserts blanks in front of line according to shiftwidth to line up line starts
+set tabstop=4                  " Tab width
+set shiftwidth=4               " Width for `>>`, `<<`, `==` commands and automatic indentation
+set expandtab                  " Tabs are spaces
+set softtabstop=4              " Tab is 4 spaces. Allows backspacing of tabs.
+"set smarttab                  " Inserts blanks in front of line according to shiftwidth to line up line starts
+set backspace=indent,eol,start " Make backspace work
 set autoindent
 
 " ================ Navigation ========================
@@ -77,11 +75,13 @@ set wildmenu         " Tab completion shows items available
 set formatoptions+=j " Delete comment character when joining commented lines
 
 " ================ Syntax ============================
-" Better :list format
+" Better `:set list` format
+set list
 if &listchars ==# 'eol:$'
   set listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+
 endif
 
+filetype on
 syntax on
 filetype indent on
 filetype plugin on
@@ -106,54 +106,48 @@ noremap <Leader>x :x<CR>
 " Un-highlight highlighted words
 nmap <silent> <leader>/ :silent :nohlsearch<CR>
 " Copy paragraph and paste below
-noremap cp yap<S-}>p
+noremap cp yap}p
 " This mapping makes macros even easier to remember: hit qq to record, q to stop recording, and Q to apply.
 " This mapping also allows you to play macros across a visual selection with Q.
 nnoremap Q @q
 vnoremap Q :norm @q<cr>
 " Go to explorer with '-'
 nnoremap - :Ex<cr>
+" Remape escape in terminal to do what it does in insert mode
+tnoremap <ESC> <C-\><C-n>
 
 " ================ Ack ==============================
-" use ack instead of grep
-set grepprg=ack
-let g:ackprg = 'ag --nogroup --nocolor --column --ignore migrations --ignore node_modules' " Use ag instead of ack
-" leader-e to edit in current dir
-map <Leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
-" leader-a to :Ack!
-map <Leader>a :Ack!
+set grepprg=ag\ --nogroup\ --nocolor
+let g:ackprg = 'ag --nogroup --nocolor --column --ignore node_modules' " Use ag instead of ack
 
-" ================ Various Plugins ==================
+" ================ Git Plugins ==================
 noremap <Leader>g :Gblame<CR>
+let g:fugitive_gitlab_domains = [$GITLAB_URL]
 
 " ================ FZF settings ========
 " Reminder old fzf settings for use with git: let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files . -co --exclude-standard', 'find %s -type f']
 noremap <Leader>b :Buffers<CR>
 noremap <Leader>m :Marks<CR>
 noremap <Leader>a :Ag!
-noremap <Leader>f :Files<CR>
+noremap <Leader>f :Files!<CR>
 
-" TODO: make files/ag preview consistent and fast
-" Files command with preview window
-let g:fzf_files_options = '--preview "head -50 {} 2> /dev/null | head -'.&lines.'"'    " But doesn't use source
-let g:fzf_files_options = '--preview "head -50 {} 2> /dev/null | head -'.&lines.'"'    " But doesn't use source
+" Using `head` instead of `command!` version on fzf.vim readme is much faster.
+" Code highlighting using rougify/pygmentize/etc is cool but too slow
+let g:fzf_files_options = '--preview "tput setaf 7; head -'.&lines.' {}"'
 
-" Ag command with preview window (for some reason slightly slower than above
+" Ag command with preview window (for some reason slightly slower than above)
+" Had to disable syntax highlighting--was too slow
 autocmd VimEnter * command! -bang -nargs=* Ag
 \    call fzf#vim#ag(<q-args>,
 \       <bang>0 ? fzf#vim#with_preview('up:60%')
 \      : fzf#vim#with_preview('right:50%:hidden', '?'),
 \       <bang>0)
 
-" Files command with preview window
-" commented out in favor of fzf_files_options b/c files seem slow to load
-"command! -bang -nargs=? -complete=dir Files
-"  \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
-
 " ================ Explorer =========================
-let g:netrw_list_hide= '\.s.*,.*\.swp$,.*\.swp\s,.pyc$,.pyc\s,.*\.swo$,.*\.swo\s' " Cycle with 'a'
-let g:netrw_liststyle = 1 " Tree-like explorer (cycle through with 'i')
-let g:netrw_banner = 0 " Remove banner (cycle through with 'I')
+" Can probably stop hiding swp/swo files now that I changed `directory`
+let g:netrw_list_hide= '\.s.*,.pyc$,.pyc\s'   " Cycle with 'a'
+let g:netrw_liststyle = 1                     " Tree-like explorer (cycle through with 'i')
+let g:netrw_banner = 0                        " Remove banner (cycle through with 'I')
 
 " ================ Autocommands ======================
 autocmd BufWritePre * :%s/\s\+$//e   " Strip whitespace on save
@@ -166,10 +160,11 @@ autocmd FileType ansible setlocal syntax=yaml
 :autocmd FileType python     nnoremap <buffer> <localleader>c I#<esc>
 
 " ================ Test Stuff ========================
-"
 " dsfkfdkfdksfkds_dfsfdskfld_fdsfsd
 "                   ^ da_
 " dsfkfdkfdksfkdsfdsfsd
+" 1. Really T_dt_ would do the same thing. Consider that?
+" 2. wellle/targets.vim looks promising
 for char in [ '_', '.', ':', ',', ';', '<bar>', '/', '<bslash>', '*', '+', '%', '`' ]
     execute 'xnoremap i' . char . ' :<C-u>normal! T' . char . 'vt' . char . '<CR>'
     execute 'onoremap i' . char . ' :normal vi' . char . '<CR>'
@@ -177,12 +172,23 @@ for char in [ '_', '.', ':', ',', ';', '<bar>', '/', '<bslash>', '*', '+', '%', 
     execute 'onoremap a' . char . ' :normal va' . char . '<CR>'
 endfor
 
-set directory=~/.vimbackup//
-set backupdir=~/.vimbackup//
+:autocmd FileType text,markdown setlocal complete+=k   " dictionary available for completion
+:autocmd FileType netrw setlocal nolist                " list is awful in netrw
 
-let g:fugitive_gitlab_domains = [$GITLAB_URL]
-" terminal remap escape
-tnoremap <ESC> <C-\><C-n>
+" CTRL-A CTRL-Q to select all and build quickfix list
+function! s:build_quickfix_list(lines)
+  call setqflist(map(copy(a:lines), '{ "filename": v:val }'))
+  copen
+  cc
+endfunction
+
+" Weird thing that allows me to put fzf results in a quickfix list, which
+" helps things like renaming func's
+let g:fzf_action = {
+  \ 'ctrl-q': function('s:build_quickfix_list'),
+  \ 'ctrl-t': 'tab split',
+  \ 'ctrl-x': 'split',
+  \ 'ctrl-v': 'vsplit' }
 
 " ============== Recycle Bin ==========================
 " Open file in same directory shortcuts
@@ -190,4 +196,3 @@ nnoremap <Leader>e :e <C-R>=expand('%:p:h') . '/'<CR>
 " TEMP COMMENT OUT SO I DON'T USE TABS nnoremap <Leader>t :tabnew <C-R>=expand('%:p:h') . '/'<CR>
 nnoremap <Leader>x :sp <C-R>=expand('%:p:h') . '/'<CR>
 nnoremap <Leader>v :vs <C-R>=expand('%:p:h') . '/'<CR>
-

@@ -18,9 +18,10 @@ set -x FZF_DEFAULT_COMMAND 'ag -g ""'
 
 # Allow vim-style page up/down
 # Lighter-colored foreground text and background
+# the ctrl-a:select-all allows for ctrl-a -> ctrl-q for quickfix list, which is weird
 set -x FZF_DEFAULT_OPTS '
-    --bind=ctrl-d:page-down,ctrl-u:page-up
-    --color bg:234,fg:245
+    --bind=ctrl-d:page-down,ctrl-u:page-up,ctrl-a:select-all
+    --color bg:234,fg:246
     '
 
 # Not sure how useful these are
