@@ -6,7 +6,7 @@ vim
 
 A very small list of useful vim commands. Assumes basic vim proficiency.
 
-* `jumplist`: `CTRL-O` (older), `CTRL-I`/`<Tab>` (newer)
+* `jumplist`: `CTRL-o` (older), `CTRL-i`/`<Tab>` (newer)
     * vim tracks jumps within windows, allowing navigation to and from previous files and positions
 * `CTRL-^`
     * Edits the alternate file (usually the previously edited file). Useful as a toggle between two files.
@@ -39,6 +39,8 @@ A very small list of useful vim commands. Assumes basic vim proficiency.
 * `:bd` removes buffer from open buffers
 * `ctrl-x`, `ctrl-l`
     * whole line completion
+* `changelist`: `g;` (older), `g,` (newer)
+    * vim tracks locations of changes, allowing jumps to those locations
 
 
 vim todo
