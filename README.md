@@ -71,3 +71,12 @@ Basic git.
 
 Sources:
 * [Undoing git changes](https://www.atlassian.com/git/tutorials/undoing-changes)
+
+fish
+----
+
+Things I forgot:
+
+* `ctrl-f` accepts autosuggestion (in addition to `→` but easier to type!)
+* `alt-→` accepts single word of autosuggestion
+* [Fish basics](https://fishshell.com/docs/current/tutorial.html)

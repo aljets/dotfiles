@@ -17,7 +17,7 @@ Plug 'shumphrey/fugitive-gitlab.vim'
 " Motion plugins
 Plug 'kana/vim-textobj-user'         " required for custom text object plugins
 Plug 'bps/vim-textobj-python'        " provides af/if/ac/ic for selecting classes and functions and [pf, ]pf, [pc, ]pc for next/previous function/class
-Plug 'ajh17/VimCompletesMe'          " one day consider replacing this with a mapping of Ctrl-N
+Plug 'ajh17/VimCompletesMe'          " one day consider replacing this with a mapping of Ctrl-N. Replaced supertab w/ this but it is awful, at least by default
 Plug 'tpope/vim-unimpaired'          " [<Space>, ]<Space> to add newlines and other handy bracket mappings
 Plug 'tpope/vim-commentary'          " `gcc` comments out a line, `gcap`, etc.
 
@@ -28,6 +28,7 @@ Plug 'pangloss/vim-javascript'       " better js syntax and highlighting
 Plug 'mxw/vim-jsx'                   " jsx syntax and highlighting
 
 " trial plugins
+Plug 'junegunn/gv.vim'               " :GV (commits) and GV! (current file) and GV? (loc list current file!)
 Plug 'easymotion/vim-easymotion'     " of dubious utility
 Plug 'Chun-Yang/vim-textobj-chunk'   " provides generic ac/ic. presumably interferes with textobj-python
 Plug 'tpope/vim-surround'            " looks extremely useful, once familiar add tpope's /vim-repeat
@@ -48,6 +49,7 @@ set laststatus=2               " Always show bottom status bar (filename, ruler,
 set directory=~/.vimbackup//   " Change .swp files from being place in dir
 " set the dictionary, which allows things like tab completion of dictionary words
 set dictionary-=/usr/share/dict/words dictionary+=/usr/share/dict/words
+set nofoldenable               " for vim-fugitive, which seems to fold by default :\
 
 " ================ Search ===========================
 set ignorecase " Case-insensitive except when using uppercase
@@ -61,7 +63,6 @@ set tabstop=4                  " Tab width
 set shiftwidth=4               " Width for `>>`, `<<`, `==` commands and automatic indentation
 set expandtab                  " Tabs are spaces
 set softtabstop=4              " Tab is 4 spaces. Allows backspacing of tabs.
-"set smarttab                  " Inserts blanks in front of line according to shiftwidth to line up line starts
 set backspace=indent,eol,start " Make backspace work
 set autoindent
 
@@ -125,6 +126,8 @@ noremap <Leader>g :Gblame<CR>
 let g:fugitive_gitlab_domains = [$GITLAB_URL]
 
 " ================ FZF settings ========
+" Code highlighting using rougify/pygmentize/etc is cool but too slow
+"
 " Reminder old fzf settings for use with git: let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files . -co --exclude-standard', 'find %s -type f']
 noremap <Leader>b :Buffers<CR>
 noremap <Leader>m :Marks<CR>
@@ -132,11 +135,9 @@ noremap <Leader>a :Ag!
 noremap <Leader>f :Files!<CR>
 
 " Using `head` instead of `command!` version on fzf.vim readme is much faster.
-" Code highlighting using rougify/pygmentize/etc is cool but too slow
 let g:fzf_files_options = '--preview "tput setaf 7; head -'.&lines.' {}"'
 
 " Ag command with preview window (for some reason slightly slower than above)
-" Had to disable syntax highlighting--was too slow
 autocmd VimEnter * command! -bang -nargs=* Ag
 \    call fzf#vim#ag(<q-args>,
 \       <bang>0 ? fzf#vim#with_preview('up:60%')
@@ -160,6 +161,7 @@ autocmd FileType ansible setlocal syntax=yaml
 :autocmd FileType python     nnoremap <buffer> <localleader>c I#<esc>
 
 " ================ Test Stuff ========================
+let g:ale_set_loclist = 0  " required if I want to use gv.vim
 " dsfkfdkfdksfkds_dfsfdskfld_fdsfsd
 "                   ^ da_
 " dsfkfdkfdksfkdsfdsfsd
@@ -191,8 +193,4 @@ let g:fzf_action = {
   \ 'ctrl-v': 'vsplit' }
 
 " ============== Recycle Bin ==========================
-" Open file in same directory shortcuts
-nnoremap <Leader>e :e <C-R>=expand('%:p:h') . '/'<CR>
-" TEMP COMMENT OUT SO I DON'T USE TABS nnoremap <Leader>t :tabnew <C-R>=expand('%:p:h') . '/'<CR>
-nnoremap <Leader>x :sp <C-R>=expand('%:p:h') . '/'<CR>
-nnoremap <Leader>v :vs <C-R>=expand('%:p:h') . '/'<CR>
+" Empty!
