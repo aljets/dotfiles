@@ -1,7 +1,7 @@
 Tool usage
 =========
 
-vim
+vim TIL
 ---
 
 A very small list of useful vim commands. Assumes basic vim proficiency.
@@ -29,7 +29,8 @@ A very small list of useful vim commands. Assumes basic vim proficiency.
 * `reg(ister)`
     * `reg` to access registers. If you yank and then yank again, your previous register is still stored!
     * `"kyy` to store a line in `k`, then `"kp` to paste. `<ctrl-r>k
-    "* Register `:` holds the last command, `/` the last search. .e.g. `":p` to paste the last command, `"/p` the last search.`
+    * Register `:` holds the last command, `/` the last search. .e.g. `":p` to
+    paste the last command, `"/p` the last search.`
 * `marks`
 * `q:`, `q\`
     * `q:` (or `:CTRL-F`) for command line w/ history, `q\` (or `\CTRL-F`) for searches.
@@ -41,18 +42,22 @@ A very small list of useful vim commands. Assumes basic vim proficiency.
     * whole line completion
 * `changelist`: `g;` (older), `g,` (newer)
     * vim tracks locations of changes, allowing jumps to those locations
+* `ctrl-r-w`, `ctrl-r-<register>`
+    * [paste contents](http://vim.wikia.com/wiki/Pasting_registers) of current
+      highlighted word / current register in insert and command-line modes
 
 
 vim todo
 --------
 
-* Split language-specific things into language-specific files
 * Don't use `,` as leader!!! (probably space)
 * Investigate `:help changes`
 * Investigate `vimux`?
 * Consider `vim-sleuth`
 * Give `vim-sneak` another try (or `vim-seek`, commands like yrwp look
   interesting, so does `clever-f`, possibly)
+* look up multilvel undo
+* look up undofile
 
 
 git

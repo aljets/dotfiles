@@ -17,7 +17,6 @@ Plug 'shumphrey/fugitive-gitlab.vim'
 " Motion plugins
 Plug 'kana/vim-textobj-user'         " required for custom text object plugins
 Plug 'bps/vim-textobj-python'        " provides af/if/ac/ic for selecting classes and functions and [pf, ]pf, [pc, ]pc for next/previous function/class
-Plug 'ajh17/VimCompletesMe'          " one day consider replacing this with a mapping of Ctrl-N. Replaced supertab w/ this but it is awful, at least by default
 Plug 'tpope/vim-unimpaired'          " [<Space>, ]<Space> to add newlines and other handy bracket mappings
 Plug 'tpope/vim-commentary'          " `gcc` comments out a line, `gcap`, etc.
 
@@ -28,6 +27,7 @@ Plug 'pangloss/vim-javascript'       " better js syntax and highlighting
 Plug 'mxw/vim-jsx'                   " jsx syntax and highlighting
 
 " trial plugins
+Plug 'junegunn/vim-peekaboo'         " Peek at register when typing \" and @
 Plug 'junegunn/gv.vim'               " :GV (commits) and GV! (current file) and GV? (loc list current file!)
 Plug 'easymotion/vim-easymotion'     " of dubious utility
 Plug 'Chun-Yang/vim-textobj-chunk'   " provides generic ac/ic. presumably interferes with textobj-python
