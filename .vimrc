@@ -27,6 +27,7 @@ Plug 'pangloss/vim-javascript'       " better js syntax and highlighting
 Plug 'mxw/vim-jsx'                   " jsx syntax and highlighting
 
 " trial plugins
+Plug 'christoomey/vim-tmux-navigator' " allows seamless ctrl-j going from tmux split to vim split
 Plug 'junegunn/vim-peekaboo'         " Peek at register when typing \" and @
 Plug 'junegunn/gv.vim'               " :GV (commits) and GV! (current file) and GV? (loc list current file!)
 Plug 'easymotion/vim-easymotion'     " of dubious utility
