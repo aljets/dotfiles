@@ -45,6 +45,9 @@ A very small list of useful vim commands. Assumes basic vim proficiency.
 * `ctrl-r-w`, `ctrl-r-<register>`
     * [paste contents](http://vim.wikia.com/wiki/Pasting_registers) of current
       highlighted word / current register in insert and command-line modes
+* `H`, `M`, `L`, `zt`, `zz`, `zb`
+    * first three move cursor in current view, last three keep cursor but shift screen
+* Reminder to use marks to copy/paste arbitrary chunks of code / across the screen (`ma`, ``d`a``)
 
 
 vim todo
@@ -58,6 +61,15 @@ vim todo
   interesting, so does `clever-f`, possibly)
 * look up multilvel undo
 * look up undofile
+
+
+vim links I liked
+----------------
+* [Productive shortcuts](https://stackoverflow.com/questions/1218390/what-is-your-most-productive-shortcut-with-vim/1220118#1220118)
+    * Good primer of `ex` command set
+* [Good intro](http://www.viemu.com/a-why-vi-vim.html)
+    * e.g. good vim users more likely to use things like `H`, `M`, `L`, `%`,
+      `f`, `/`, `]]` than `h`, `j`, `k`, `l`, etc.
 
 
 git
