@@ -1,0 +1,34 @@
+#! /bin/bash
+
+# this is ugly. really.
+# goes to folder, renames tmux session after folder, and changes default folder to pwd
+# inspired by https://github.com/evantravers/polka/blob/master/bin/tspace
+
+# https://github.com/junegunn/fzf/issues/27#issuecomment-38053947
+fq1() {
+  local lines
+  lines=$(fzf --filter="$1" --no-sort)
+  if [ -z "$lines" ]; then
+    return 1
+  elif [ $(wc -l <<< "$lines") -eq 1 ]; then
+    echo "$lines"
+  else
+    echo "$lines" | fzf --query="$1"
+  fi
+}
+
+
+tspace_func() {
+    local target_dir
+    local session_name
+    target_dir=$(ls -p | fzf)
+    session_name=$(basename "$target_dir")
+    if [ -n "$target_dir" ]  # handles escape
+    then
+        cd "$target_dir"
+        tmux new -d -s "$session_name" -c "$target_dir"
+        tmux switchc -t "$session_name"
+    fi
+}
+
+tspace_func

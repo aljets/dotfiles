@@ -7,18 +7,23 @@ set nocompatible
 " Install new plugins: :PlugInstall
 call plug#begin('~/.vim/plugged')
 
+" Theme
+Plug 'jnurmine/Zenburn'
+
 " File plugins
 Plug 'mileszs/ack.vim'               " what's the use of this with fzf? primary difference seems the ability to keep the drawer open with :Ack!
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
-Plug 'tpope/vim-fugitive'
-Plug 'shumphrey/fugitive-gitlab.vim'
+Plug 'tpope/vim-fugitive'            " Handy Git integration
+Plug 'shumphrey/fugitive-gitlab.vim' " Allows GitLab urls in vim-fugitive
+Plug 'junegunn/gv.vim'               " :GV (commits) and GV! (current file) and GV? (loc list current file!)
 
 " Motion plugins
-Plug 'kana/vim-textobj-user'         " required for custom text object plugins
-Plug 'bps/vim-textobj-python'        " provides af/if/ac/ic for selecting classes and functions and [pf, ]pf, [pc, ]pc for next/previous function/class
 Plug 'tpope/vim-unimpaired'          " [<Space>, ]<Space> to add newlines and other handy bracket mappings
 Plug 'tpope/vim-commentary'          " `gcc` comments out a line, `gcap`, etc.
+
+" Movement plugins
+Plug 'christoomey/vim-tmux-navigator' " allows seamless ctrl-j going from tmux split to vim split
 
 " syntax plugins
 Plug 'w0rp/ale'                      " better than syntastic (async)
@@ -27,10 +32,10 @@ Plug 'pangloss/vim-javascript'       " better js syntax and highlighting
 Plug 'mxw/vim-jsx'                   " jsx syntax and highlighting
 
 " trial plugins
-Plug 'christoomey/vim-tmux-navigator' " allows seamless ctrl-j going from tmux split to vim split
 Plug 'junegunn/vim-peekaboo'         " Peek at register when typing \" and @
-Plug 'junegunn/gv.vim'               " :GV (commits) and GV! (current file) and GV? (loc list current file!)
 Plug 'easymotion/vim-easymotion'     " of dubious utility
+Plug 'kana/vim-textobj-user'         " required for custom text object plugins
+Plug 'bps/vim-textobj-python'        " provides af/if/ac/ic for selecting classes and functions and [pf, ]pf, [pc, ]pc for next/previous function/class
 Plug 'Chun-Yang/vim-textobj-chunk'   " provides generic ac/ic. presumably interferes with textobj-python
 Plug 'tpope/vim-surround'            " looks extremely useful, once familiar add tpope's /vim-repeat
 call plug#end()
@@ -38,9 +43,8 @@ call plug#end()
 " ================ General Config ====================
 let &t_Co=256
 let g:zenburn_high_Contrast=1
-colorscheme zenburn            " formerly: wombat256
+colorscheme wombat256          " formerly, and still great: zenburn
 set colorcolumn=101            " line length indicator
-highlight colorcolumn ctermbg=0 guibg=Black
 set ruler                      " Column/row indicator in status bar
 set number                     " Show columns on left
 set relativenumber             " Show columns relative

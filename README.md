@@ -47,6 +47,7 @@ A very small list of useful vim commands. Assumes basic vim proficiency.
       highlighted word / current register in insert and command-line modes
 * `H`, `M`, `L`, `zt`, `zz`, `zb`
     * first three move cursor in current view, last three keep cursor but shift screen
+    * also remember there is more than `ctrl-u/d` (`ctrl-b/f/e/y`)
 * Reminder to use marks to copy/paste arbitrary chunks of code / across the screen (`ma`, ``d`a``)
 
 
