@@ -98,3 +98,10 @@ Things I forgot:
 * `ctrl-f` accepts autosuggestion (in addition to `→` but easier to type!)
 * `alt-→` accepts single word of autosuggestion
 * [Fish basics](https://fishshell.com/docs/current/tutorial.html)
+
+
+tmux
+----
+
+* [Intro to point people to](http://tmuxp.readthedocs.io/en/latest/about_tmux.html)
+    * Basic key mappings and tmux functionality
