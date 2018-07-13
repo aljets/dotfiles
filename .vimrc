@@ -43,7 +43,7 @@ call plug#end()
 " ================ General Config ====================
 let &t_Co=256
 let g:zenburn_high_Contrast=1
-colorscheme wombat256          " formerly, and still great: zenburn
+colorscheme zenburn            " formerly: wombat256
 set colorcolumn=101            " line length indicator
 set ruler                      " Column/row indicator in status bar
 set number                     " Show columns on left
@@ -167,6 +167,7 @@ autocmd FileType ansible setlocal syntax=yaml
 
 " ================ Test Stuff ========================
 let g:ale_set_loclist = 0  " required if I want to use gv.vim
+let g:ale_set_quickfix = 1
 " dsfkfdkfdksfkds_dfsfdskfld_fdsfsd
 "                   ^ da_
 " dsfkfdkfdksfkdsfdsfsd

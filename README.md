@@ -31,7 +31,7 @@ A very small list of useful vim commands. Assumes basic vim proficiency.
     * `"kyy` to store a line in `k`, then `"kp` to paste. `<ctrl-r>k
     * Register `:` holds the last command, `/` the last search. .e.g. `":p` to
     paste the last command, `"/p` the last search.`
-* `marks`
+* [`marks`](http://vim.wikia.com/wiki/Using_marks)
 * `q:`, `q\`
     * `q:` (or `:CTRL-F`) for command line w/ history, `q\` (or `\CTRL-F`) for searches.
 * `CTRL-R CTRL-W`, `CTRL-R CTRL-0`
