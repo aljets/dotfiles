@@ -31,7 +31,8 @@ if not set -q abbrs_initialized
     abbr -a ga git add
     abbr -a gb git branch
     abbr -a gc git commit
-    abbr -a gd git diff --cached
+    abbr -a gd git diff
+    abbr -a gdc git diff --cached
     abbr -a go git checkout
     abbr -a gp git pull
 end

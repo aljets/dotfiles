@@ -79,13 +79,13 @@ git
 Basic git.
 
 * `clean`: Remove untracked items. `-f` for files, `-d` for directories. Obliterates uncommitted unstages changes.
-* `reset --hard`: Reset staging and working directory to match the most recent commit. Obliterates uncommitted staged changes.
-* `reset`: Unstages files. Safe.
-* `reset <commit>`: "Undo" commit, only to be used for local commits.
-* `reset <file>`: Unstage file. Safe.
+* `reset`: Unstages all files. Safe.
+    * `reset <file>`: Unstage `<file>`. Safe.
+    * `reset <commit>`: "Undo" commit, keeping files but unstaged, only to be used for local commits.
+    * `reset --hard`: Reset staging and working directory to match the most recent commit. Obliterates uncommitted staged changes.
 * `revert <commit>`: Generate new commit that undoes the changes introduced in `<commit>`, then apply it to the current branch.
-* `checkout <commit> <file>`: Check out a previous version of a file. This turns the `<file>` that resides in the working directory into an exact copy of the one from <commit> and adds it to the staging area.
 * `checkout <commit>`: Update all files in the working directory to match the specified commit.
+* `checkout (<commit>) <file>`: Check out a previous version of a file. This turns the `<file>` that resides in the working directory into an exact copy of the one from <commit> and adds it to the staging area.
 
 Sources:
 * [Undoing git changes](https://www.atlassian.com/git/tutorials/undoing-changes)

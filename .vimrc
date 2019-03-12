@@ -11,9 +11,9 @@ call plug#begin('~/.vim/plugged')
 Plug 'jnurmine/Zenburn'
 
 " File plugins
-Plug 'mileszs/ack.vim'               " what's the use of this with fzf? primary difference seems the ability to keep the drawer open with :Ack!
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
+Plug 'mileszs/ack.vim'               " what's the use of this with fzf? primary difference seems the ability to keep the drawer open with :Ack!
 Plug 'tpope/vim-fugitive'            " Handy Git integration
 Plug 'shumphrey/fugitive-gitlab.vim' " Allows GitLab urls in vim-fugitive
 Plug 'junegunn/gv.vim'               " :GV (commits) and GV! (current file) and GV? (loc list current file!)
@@ -25,13 +25,13 @@ Plug 'tpope/vim-commentary'          " `gcc` comments out a line, `gcap`, etc.
 " Movement plugins
 Plug 'christoomey/vim-tmux-navigator' " allows seamless ctrl-j going from tmux split to vim split
 
-" syntax plugins
+" Syntax plugins
 Plug 'w0rp/ale'                      " better than syntastic (async)
 Plug 'hynek/vim-python-pep8-indent'  " python indentation per pep8
 Plug 'pangloss/vim-javascript'       " better js syntax and highlighting
 Plug 'mxw/vim-jsx'                   " jsx syntax and highlighting
 
-" trial plugins
+" Trial plugins
 Plug 'junegunn/vim-peekaboo'         " Peek at register when typing \" and @
 Plug 'easymotion/vim-easymotion'     " of dubious utility
 Plug 'kana/vim-textobj-user'         " required for custom text object plugins
@@ -98,7 +98,8 @@ let g:ale_python_flake8_options = '-m flake8 --ignore=E501'  " Requires flake8 i
 set wildignore+=*.pyc
 
 " ================ Remap ============================
-let mapleader=","
+nnoremap <SPACE> <Nop>
+let mapleader=" "
 let maplocalleader="\\"
 " remap split keys from ctrl+w+j to ctrl+j
 nnoremap <C-J> <C-W><C-J>
@@ -140,9 +141,11 @@ noremap <Leader>a :Ag!
 noremap <Leader>f :Files!<CR>
 
 " Using `head` instead of `command!` version on fzf.vim readme is much faster.
+" Preview for :Files
 let g:fzf_files_options = '--preview "tput setaf 7; head -'.&lines.' {}"'
 
 " Ag command with preview window (for some reason slightly slower than above)
+" Preview for :Ag
 autocmd VimEnter * command! -bang -nargs=* Ag
 \    call fzf#vim#ag(<q-args>,
 \       <bang>0 ? fzf#vim#with_preview('up:60%')
@@ -157,9 +160,9 @@ let g:netrw_banner = 0                        " Remove banner (cycle through wit
 
 " ================ Autocommands ======================
 autocmd BufWritePre * :%s/\s\+$//e   " Strip whitespace on save
-autocmd FileType yaml setlocal shiftwidth=2 tabstop=2 softtabstop=2
 " Override when individuals set `vim:ft=ansible` to files
 autocmd FileType ansible setlocal syntax=yaml
+autocmd FileType yaml setlocal shiftwidth=2 tabstop=2 softtabstop=2
 
 " ================ Helpers ===========================
 :autocmd FileType javascript nnoremap <buffer> <localleader>c I//<esc>
