@@ -26,7 +26,7 @@ set -x FZF_DEFAULT_OPTS '
 
 # Not sure how useful these are
 if not set -q abbrs_initialized
-    abbr -a ht history --with-time
+    abbr -a ht "history --show-time='%m-%d %a %I:%M:%S %p: ' | fzf"
     abbr -a gs git status
     abbr -a ga git add
     abbr -a gb git branch

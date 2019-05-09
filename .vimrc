@@ -43,7 +43,7 @@ call plug#end()
 " ================ General Config ====================
 let &t_Co=256
 let g:zenburn_high_Contrast=1
-colorscheme zenburn            " formerly: wombat256
+silent! colorscheme zenburn    " formerly: wombat256. `silent!` is b/c this colorscheme is installed via vim-plug, which must run with the vimrc loaded before the colorscheme is loaded
 set colorcolumn=101            " line length indicator
 set ruler                      " Column/row indicator in status bar
 set number                     " Show columns on left
