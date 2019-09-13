@@ -1,3 +1,11 @@
+Dotfiles
+=========
+
+Note that the `.gitconfig` assumes this repo is cloned to `~/tools/dotfiles`,
+personal name and email are in `~/tools/.gitconfig_personal` and that any
+work-related settings (basically just name and email) are in
+`~/repos/dotfiles/.gitconfig_work`.
+
 Tool usage
 =========
 
