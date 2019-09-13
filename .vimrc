@@ -92,7 +92,7 @@ syntax on
 filetype indent on
 filetype plugin on
 let g:jsx_ext_required = 0 " Allow JSX in normal JS files, used with vim-jsx plugin
-let g:ale_python_flake8_executable = 'python3.6'  " Requires flake8 install
+let g:ale_python_flake8_executable = 'python3.7'  " Requires flake8 install
 let g:ale_python_flake8_options = '-m flake8 --ignore=E501'  " Requires flake8 install
 
 set wildignore+=*.pyc
