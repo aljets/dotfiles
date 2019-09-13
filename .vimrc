@@ -154,9 +154,10 @@ autocmd VimEnter * command! -bang -nargs=* Ag
 
 " ================ Explorer =========================
 " Can probably stop hiding swp/swo files now that I changed `directory`
-let g:netrw_list_hide= '\.s.*,.pyc$,.pyc\s'   " Cycle with 'a'
+let g:netrw_list_hide= '.pyc$,.pyc\s'   " Cycle with 'a'
 let g:netrw_liststyle = 1                     " Tree-like explorer (cycle through with 'i')
 let g:netrw_banner = 0                        " Remove banner (cycle through with 'I')
+let g:netrw_sort_options = 'i'
 
 " ================ Autocommands ======================
 autocmd BufWritePre * :%s/\s\+$//e   " Strip whitespace on save

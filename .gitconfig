@@ -1,7 +1,9 @@
-[alias]
-    co = checkout
-    ci = commit
-    st = status
-    br = branch
-    glog = log --graph --pretty=format:'%Cgreen%h %Creset%C(bold black)%cd (%cr) %C(cyan)%an:%C(yellow)%d%Creset %s %Creset' --date=format-local:'%a, %d %b %Y %H:%M:%S'
-    l = log --pretty=format:'%Cgreen%h %Creset%C(bold black)%cd (%cr) %C(cyan)%an:%C(yellow)%d%Creset %s %Creset' --date=format-local:'%a, %d %b %Y %H:%M:%S'
+[include]
+    # Global git settings
+    path = ~/tools/dotfiles/.gitconfig_global
+    # Personal name and email for personal repos
+    path = ~/tools/.gitconfig_personal
+
+[includeIf "gitdir:~/repos/"]
+    # Work name and email for work repos
+    path = ~/repos/dotfiles/.gitconfig_work

@@ -1,5 +1,5 @@
 # ugly solution to getting env vars `$GITLAB_URL` and `$GIT_ROOT_ROOT`
-source ~/dotfiles/.privatefishconfig
+source ~/repos/dotfiles/.work_fish_config
 
 # Add dotfiles subdir for fish function path
 set fish_function_path ~/.config/fish/functions_from_dotfiles $fish_function_path
