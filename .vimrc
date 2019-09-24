@@ -92,8 +92,8 @@ syntax on
 filetype indent on
 filetype plugin on
 let g:jsx_ext_required = 0 " Allow JSX in normal JS files, used with vim-jsx plugin
-let g:ale_python_flake8_executable = 'python3.7'  " Requires flake8 install
-let g:ale_python_flake8_options = '-m flake8 --ignore=E501'  " Requires flake8 install
+" let g:ale_python_flake8_executable = 'python3.7'  " Requires flake8 install
+let g:ale_python_flake8_options = '--ignore=E501'  " Requires flake8 install
 
 set wildignore+=*.pyc
 
@@ -155,9 +155,14 @@ autocmd VimEnter * command! -bang -nargs=* Ag
 " ================ Explorer =========================
 " Can probably stop hiding swp/swo files now that I changed `directory`
 let g:netrw_list_hide= '.pyc$,.pyc\s'   " Cycle with 'a'
-let g:netrw_liststyle = 1                     " Tree-like explorer (cycle through with 'i')
+let g:netrw_liststyle = 1                     " Tree-like explorer (cycle through with 'i'). thing/long/tree 0/1/3
 let g:netrw_banner = 0                        " Remove banner (cycle through with 'I')
-let g:netrw_sort_options = 'i'
+" let g:netrw_sort_options = 'i'              " Ignore case in sort
+" '?' calls netrw key mappings
+autocmd FileType netrw nnoremap ? :help netrw-quickmap<CR>
+" Have to map NetrwRefresh explicitly otherwise it'll map to <C-L> which I
+" want
+nmap <unique> <C-P> <Plug>NetrwRefresh
 
 " ================ Autocommands ======================
 autocmd BufWritePre * :%s/\s\+$//e   " Strip whitespace on save

@@ -1,10 +1,11 @@
-# ugly solution to getting env vars `$GITLAB_URL` and `$GIT_ROOT_ROOT`
+# ugly solution to getting env vars `$GITLAB_URL` and `$GIT_REPO_ROOT`, etc.
 source ~/repos/dotfiles/.work_fish_config
 
 # Add dotfiles subdir for fish function path
 set fish_function_path ~/.config/fish/functions_from_dotfiles $fish_function_path
 
 set -gx EDITOR vim
+set -gx PATH $PATH ~/bin
 
 # Need to spend time cleaning this up
 # I don't think these do anything since I'm not using the fish git prompt stuff
