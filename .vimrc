@@ -155,7 +155,7 @@ autocmd VimEnter * command! -bang -nargs=* Ag
 " ================ Explorer =========================
 " Can probably stop hiding swp/swo files now that I changed `directory`
 let g:netrw_list_hide= '.pyc$,.pyc\s'   " Cycle with 'a'
-let g:netrw_liststyle = 1                     " Tree-like explorer (cycle through with 'i'). thing/long/tree 0/1/3
+let g:netrw_liststyle = 0                     " Tree-like explorer (cycle through with 'i'). thin/long/tree 0/1/3
 let g:netrw_banner = 0                        " Remove banner (cycle through with 'I')
 " let g:netrw_sort_options = 'i'              " Ignore case in sort
 " '?' calls netrw key mappings
@@ -168,7 +168,7 @@ nmap <unique> <C-P> <Plug>NetrwRefresh
 autocmd BufWritePre * :%s/\s\+$//e   " Strip whitespace on save
 " Override when individuals set `vim:ft=ansible` to files
 autocmd FileType ansible setlocal syntax=yaml
-autocmd FileType yaml setlocal shiftwidth=2 tabstop=2 softtabstop=2
+autocmd FileType yaml,tf setlocal shiftwidth=2 tabstop=2 softtabstop=2
 
 " ================ Helpers ===========================
 :autocmd FileType javascript nnoremap <buffer> <localleader>c I//<esc>
