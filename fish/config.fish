@@ -7,15 +7,15 @@ set fish_function_path ~/.config/fish/functions_from_dotfiles $fish_function_pat
 set -gx EDITOR vim
 set -gx PATH $PATH ~/bin
 
+# Use ag for fzf initialization; show hidden files
+set -gx FZF_DEFAULT_COMMAND 'ag --hidden --ignore .git -g ""'
+
 # Need to spend time cleaning this up
 # I don't think these do anything since I'm not using the fish git prompt stuff
 set __fish_git_prompt_showdirtystate 'yes'
 set __fish_git_prompt_showstashstate 'yes'
 set __fish_git_prompt_showupstream 'yes'
 set __fish_git_prompt_color_branch yellow
-
-# Faster FZF init
-set -x FZF_DEFAULT_COMMAND 'ag -g ""'
 
 # Allow vim-style page up/down
 # Lighter-colored foreground text and background
