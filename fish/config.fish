@@ -36,6 +36,7 @@ if not set -q abbrs_initialized
     abbr -a gdc git diff --cached
     abbr -a go git checkout
     abbr -a gp git pull
+    abbr -a gl git l
 end
 
 # https://iterm2.com/documentation-shell-integration.html
