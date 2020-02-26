@@ -173,6 +173,7 @@ autocmd FileType yaml,tf setlocal shiftwidth=2 tabstop=2 softtabstop=2
 " ================ Helpers ===========================
 :autocmd FileType javascript nnoremap <buffer> <localleader>c I//<esc>
 :autocmd FileType python     nnoremap <buffer> <localleader>c I#<esc>
+:autocmd FileType python     set keywordprg=python\ -m\ pydoc
 
 " ================ Test Stuff ========================
 let g:ale_set_loclist = 0  " required if I want to use gv.vim
