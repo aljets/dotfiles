@@ -33,6 +33,7 @@ Plug 'mxw/vim-jsx'                   " jsx syntax and highlighting
 
 " Trial plugins
 Plug 'junegunn/vim-peekaboo'         " Peek at register when typing \" and @
+Plug 'junegunn/vim-easy-align'       " Align text around `=`, markdown tables, etc.
 Plug 'easymotion/vim-easymotion'     " of dubious utility
 Plug 'kana/vim-textobj-user'         " required for custom text object plugins
 Plug 'bps/vim-textobj-python'        " provides af/if/ac/ic for selecting classes and functions and [pf, ]pf, [pc, ]pc for next/previous function/class
@@ -207,6 +208,11 @@ let g:fzf_action = {
   \ 'ctrl-t': 'tab split',
   \ 'ctrl-x': 'split',
   \ 'ctrl-v': 'vsplit' }
+
+" Start interactive EasyAlign in visual mode (e.g. vipga)
+xmap ga <Plug>(EasyAlign)
+" Start interactive EasyAlign for a motion/text object (e.g. gaip)
+nmap ga <Plug>(EasyAlign)
 
 " ============== Recycle Bin ==========================
 " Empty!
