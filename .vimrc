@@ -95,6 +95,8 @@ filetype plugin on
 let g:jsx_ext_required = 0 " Allow JSX in normal JS files, used with vim-jsx plugin
 " let g:ale_python_flake8_executable = 'python3.7'  " Requires flake8 install
 let g:ale_python_flake8_options = '--ignore=E501'  " Requires flake8 install
+let g:ale_python_pylint_executable = 'dockerpylint'
+
 
 set wildignore+=*.pyc
 
