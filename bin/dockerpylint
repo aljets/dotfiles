@@ -1,2 +1,4 @@
-#!/bin/bash
-docker-compose run --entrypoint pylint pylint "$@"
+#!/bin/bash -x
+docker-compose build pylint
+pwd_loc=$(pwd)/
+docker-compose run --entrypoint pylint pylint "${@##$pwd_loc}"
