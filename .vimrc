@@ -97,7 +97,17 @@ let g:jsx_ext_required = 0 " Allow JSX in normal JS files, used with vim-jsx plu
 let g:ale_python_flake8_options = '--ignore=E501'  " Requires flake8 install
 let g:ale_python_pylint_executable = 'dockerpylint'
 let g:ale_python_mypy_executable = 'dockermypy'
-
+let g:ale_filename_mappings = {
+\   'mypy': [
+\       [$TMPDIR, '/tmp/'],
+\       [getcwd() . '/application/src/', 'src/'],
+\       [getcwd() . '/src/', 'src/'],
+\   ],
+\   'pylint': [
+\       [getcwd() . '/application/src/', 'src/'],
+\       [getcwd() . '/src/', 'src/'],
+\   ],
+\}
 
 set wildignore+=*.pyc
 
@@ -150,11 +160,11 @@ let g:fzf_files_options = '--preview "tput setaf 7; head -'.&lines.' {}"'
 
 " Ag command with preview window (for some reason slightly slower than above)
 " Preview for :Ag
-autocmd VimEnter * command! -bang -nargs=* Ag
-\    call fzf#vim#ag(<q-args>,
-\       <bang>0 ? fzf#vim#with_preview('up:60%')
-\      : fzf#vim#with_preview('right:50%:hidden', '?'),
-\       <bang>0)
+" autocmd VimEnter * command! -bang -nargs=* Ag
+" \    call fzf#vim#ag(<q-args>,
+" \       <bang>0 ? fzf#vim#with_preview('up:60%')
+" \      : fzf#vim#with_preview('right:50%:hidden', '?'),
+" \       <bang>0)
 
 " ================ Explorer =========================
 " Can probably stop hiding swp/swo files now that I changed `directory`
