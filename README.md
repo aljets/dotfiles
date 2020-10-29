@@ -57,6 +57,7 @@ A very small list of useful vim commands. Assumes basic vim proficiency.
     * first three move cursor in current view, last three keep cursor but shift screen
     * also remember there is more than `ctrl-u/d` (`ctrl-b/f/e/y`)
 * Reminder to use marks to copy/paste arbitrary chunks of code / across the screen (`ma`, ``d`a``)
+* `:%! python -m json.tool`
 
 
 vim todo

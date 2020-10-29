@@ -9,6 +9,7 @@ call plug#begin('~/.vim/plugged')
 
 " Theme
 Plug 'jnurmine/Zenburn'
+Plug 'sickill/vim-monokai'
 
 " File plugins
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
@@ -29,7 +30,6 @@ Plug 'christoomey/vim-tmux-navigator' " allows seamless ctrl-j going from tmux s
 Plug 'w0rp/ale'                      " better than syntastic (async)
 Plug 'hynek/vim-python-pep8-indent'  " python indentation per pep8
 Plug 'pangloss/vim-javascript'       " better js syntax and highlighting
-Plug 'mxw/vim-jsx'                   " jsx syntax and highlighting
 
 " Trial plugins
 Plug 'junegunn/vim-peekaboo'         " Peek at register when typing \" and @
@@ -45,6 +45,7 @@ call plug#end()
 let &t_Co=256
 let g:zenburn_high_Contrast=1
 silent! colorscheme zenburn    " formerly: wombat256. `silent!` is b/c this colorscheme is installed via vim-plug, which must run with the vimrc loaded before the colorscheme is loaded
+
 set colorcolumn=101            " line length indicator
 set ruler                      " Column/row indicator in status bar
 set number                     " Show columns on left
@@ -92,19 +93,18 @@ filetype on
 syntax on
 filetype indent on
 filetype plugin on
-let g:jsx_ext_required = 0 " Allow JSX in normal JS files, used with vim-jsx plugin
-" let g:ale_python_flake8_executable = 'python3.7'  " Requires flake8 install
-let g:ale_python_flake8_options = '--ignore=E501'  " Requires flake8 install
-let g:ale_python_pylint_executable = 'dockerpylint'
-let g:ale_python_mypy_executable = 'dockermypy'
+" let g:ale_python_pylint_executable = 'dockerpylint'
+" let g:ale_python_mypy_executable = 'dockermypy'
 let g:ale_filename_mappings = {
 \   'mypy': [
 \       [$TMPDIR, '/tmp/'],
 \       [getcwd() . '/application/src/', 'src/'],
+\       [getcwd() . '/application/tests/', 'tests/'],
 \       [getcwd() . '/src/', 'src/'],
 \   ],
 \   'pylint': [
 \       [getcwd() . '/application/src/', 'src/'],
+\       [getcwd() . '/application/tests/', 'tests/'],
 \       [getcwd() . '/src/', 'src/'],
 \   ],
 \}
@@ -146,25 +146,11 @@ noremap <Leader>g :Gblame<CR>
 let g:fugitive_gitlab_domains = [$GITLAB_URL]
 
 " ================ FZF settings ========
-" Code highlighting using rougify/pygmentize/etc is cool but too slow
-"
 " Reminder old fzf settings for use with git: let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files . -co --exclude-standard', 'find %s -type f']
 noremap <Leader>b :Buffers<CR>
-noremap <Leader>m :Marks<CR>
+noremap <Leader>m :Marks!<CR>
 noremap <Leader>a :Ag!
 noremap <Leader>f :Files!<CR>
-
-" Using `head` instead of `command!` version on fzf.vim readme is much faster.
-" Preview for :Files
-let g:fzf_files_options = '--preview "tput setaf 7; head -'.&lines.' {}"'
-
-" Ag command with preview window (for some reason slightly slower than above)
-" Preview for :Ag
-" autocmd VimEnter * command! -bang -nargs=* Ag
-" \    call fzf#vim#ag(<q-args>,
-" \       <bang>0 ? fzf#vim#with_preview('up:60%')
-" \      : fzf#vim#with_preview('right:50%:hidden', '?'),
-" \       <bang>0)
 
 " ================ Explorer =========================
 " Can probably stop hiding swp/swo files now that I changed `directory`

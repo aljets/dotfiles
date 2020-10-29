@@ -4,6 +4,12 @@ source ~/repos/dotfiles/.work_fish_config
 # Add dotfiles subdir for fish function path
 set fish_function_path ~/.config/fish/functions_from_dotfiles $fish_function_path
 
+# Have to set this to avoid venv from showing up twice (set manually in my
+# prompt, I don't like something adding an its own)
+set -gx VIRTUAL_ENV_DISABLE_PROMPT 'True'
+# Load pydev venv
+pydev
+
 set -gx EDITOR vim
 set -gx PATH $PATH ~/bin
 
