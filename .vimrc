@@ -30,6 +30,7 @@ Plug 'christoomey/vim-tmux-navigator' " allows seamless ctrl-j going from tmux s
 Plug 'w0rp/ale'                      " better than syntastic (async)
 Plug 'hynek/vim-python-pep8-indent'  " python indentation per pep8
 Plug 'pangloss/vim-javascript'       " better js syntax and highlighting
+Plug 'maxmellon/vim-jsx-pretty'      " better jsx syntax and indentation
 
 " Trial plugins
 Plug 'junegunn/vim-peekaboo'         " Peek at register when typing \" and @
@@ -124,6 +125,8 @@ nnoremap <C-H> <C-W><C-H>
 noremap <Leader>w :w<CR>
 noremap <Leader>q :q<CR>
 noremap <Leader>x :x<CR>
+" Lexplore 25% width
+noremap <Leader>l :Lexplore 25<CR>
 " Un-highlight highlighted words
 nmap <silent> <leader>/ :silent :nohlsearch<CR>
 " Copy paragraph and paste below
@@ -136,6 +139,12 @@ vnoremap Q :norm @q<cr>
 nnoremap - :Ex<cr>
 " Remape escape in terminal to do what it does in insert mode
 tnoremap <ESC> <C-\><C-n>
+" ALE isort quickfix
+augroup your_group
+  autocmd!
+  autocmd FileType python noremap <Leader>i :ALEFix isort<CR>
+  autocmd FileType javascript,javascriptreact noremap <Leader>i :ALEFix prettier<CR>
+augroup END
 
 " ================ Ack ==============================
 set grepprg=ag\ --nogroup\ --nocolor
