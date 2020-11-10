@@ -24,11 +24,14 @@ set __fish_git_prompt_showupstream 'yes'
 set __fish_git_prompt_color_branch yellow
 
 # Allow vim-style page up/down
-# Lighter-colored foreground text and background
 # the ctrl-a:select-all allows for ctrl-a -> ctrl-q for quickfix list, which is weird
+#
+# FZF default options are global. Sets a lighter-colored foreground text and
+# background border:235 to hide border around file. VIM BG is currently 234. Also a darker
+# than vim looks good (bg:233,border:234).
 set -x FZF_DEFAULT_OPTS '
     --bind=ctrl-d:page-down,ctrl-u:page-up,ctrl-a:select-all
-    --color bg:234,fg:246
+    --color bg:235,fg:246
     '
 
 # Not sure how useful these are

@@ -17,7 +17,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'mileszs/ack.vim'               " what's the use of this with fzf? primary difference seems the ability to keep the drawer open with :Ack!
 Plug 'tpope/vim-fugitive'            " Handy Git integration
 Plug 'shumphrey/fugitive-gitlab.vim' " Allows GitLab urls in vim-fugitive
-Plug 'junegunn/gv.vim'               " :GV (commits) and GV! (current file) and GV? (loc list current file!)
+Plug 'junegunn/gv.vim'               " `:GV` (commits), `GV!` (current file), `GV?` (loc list current file!)
 
 " Motion plugins
 Plug 'tpope/vim-unimpaired'          " [<Space>, ]<Space> to add newlines and other handy bracket mappings
@@ -40,6 +40,7 @@ Plug 'kana/vim-textobj-user'         " required for custom text object plugins
 Plug 'bps/vim-textobj-python'        " provides af/if/ac/ic for selecting classes and functions and [pf, ]pf, [pc, ]pc for next/previous function/class
 Plug 'Chun-Yang/vim-textobj-chunk'   " provides generic ac/ic. presumably interferes with textobj-python
 Plug 'tpope/vim-surround'            " looks extremely useful, once familiar add tpope's /vim-repeat
+Plug 'styled-components/vim-styled-components' " styled component highlighting
 call plug#end()
 
 " ================ General Config ====================
@@ -156,10 +157,15 @@ let g:fugitive_gitlab_domains = [$GITLAB_URL]
 
 " ================ FZF settings ========
 " Reminder old fzf settings for use with git: let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files . -co --exclude-standard', 'find %s -type f']
+" Shorcuts to fzf commands. `!` denotes fullsreen.
 noremap <Leader>b :Buffers<CR>
 noremap <Leader>m :Marks!<CR>
 noremap <Leader>a :Ag!
 noremap <Leader>f :Files!<CR>
+" Mostly for highlight: Nontext, which sets the overal popup window border as
+" more subtle (highlight groups: `:so $VIMRUNTIME/syntax/hitest.vim`)
+let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6, 'highlight': 'Nontext' } }
+" let g:fzf_layout = { 'down': '40%' } " use location window, not popup
 
 " ================ Explorer =========================
 " Can probably stop hiding swp/swo files now that I changed `directory`
@@ -221,6 +227,7 @@ let g:fzf_action = {
 xmap ga <Plug>(EasyAlign)
 " Start interactive EasyAlign for a motion/text object (e.g. gaip)
 nmap ga <Plug>(EasyAlign)
+
 
 " ============== Recycle Bin ==========================
 " Empty!
