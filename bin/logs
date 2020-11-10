@@ -1,8 +1,9 @@
-#!/bin/bash -x
+#!/bin/bash
 logs(){
     service_name=$(echo "$SERVICES" | fzf)
     task_arn=$(aws ecs list-tasks --cluster=${DEFAULT_CLUSTER} --service-name=${service_name}-dev | jq -r '.taskArns[0]')
     task_id=${task_arn##*/}
+    set -x
     ecs-cli logs --cluster=${DEFAULT_CLUSTER} --task-id=${task_id} ${@}
 }
 
