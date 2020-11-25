@@ -11,7 +11,7 @@ set -gx VIRTUAL_ENV_DISABLE_PROMPT 'True'
 pydev
 
 set -gx EDITOR vim
-set -gx PATH $PATH ~/bin
+set -gx PATH $PATH ~/bin ~/.fzf/bin
 
 # Use ag for fzf initialization; show hidden files
 set -gx FZF_DEFAULT_COMMAND 'ag --hidden --ignore .git -g ""'
@@ -36,7 +36,7 @@ set -x FZF_DEFAULT_OPTS '
 
 # Not sure how useful these are
 if not set -q abbrs_initialized
-    abbr -a ht "history --show-time='%m-%d %a %I:%M:%S %p: ' | fzf"
+    abbr -a ht "commandline (history --show-time='%m/%d %a %I:%M:%S %p: ' | fzf | sed -E -e 's/^[^A]*(AM|PM): //')"
     abbr -a gs git status
     abbr -a ga git add
     abbr -a gb git branch
