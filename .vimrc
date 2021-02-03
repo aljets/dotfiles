@@ -95,21 +95,6 @@ filetype on
 syntax on
 filetype indent on
 filetype plugin on
-" let g:ale_python_pylint_executable = 'dockerpylint'
-" let g:ale_python_mypy_executable = 'dockermypy'
-let g:ale_filename_mappings = {
-\   'mypy': [
-\       [$TMPDIR, '/tmp/'],
-\       [getcwd() . '/application/src/', 'src/'],
-\       [getcwd() . '/application/tests/', 'tests/'],
-\       [getcwd() . '/src/', 'src/'],
-\   ],
-\   'pylint': [
-\       [getcwd() . '/application/src/', 'src/'],
-\       [getcwd() . '/application/tests/', 'tests/'],
-\       [getcwd() . '/src/', 'src/'],
-\   ],
-\}
 
 set wildignore+=*.pyc
 
@@ -227,6 +212,23 @@ let g:fzf_action = {
 xmap ga <Plug>(EasyAlign)
 " Start interactive EasyAlign for a motion/text object (e.g. gaip)
 nmap ga <Plug>(EasyAlign)
+
+" Using docker for lint and mypy is neat. But.... it's slow....
+" let g:ale_python_pylint_executable = 'dockerpylint'
+" let g:ale_python_mypy_executable = 'dockermypy'
+let g:ale_filename_mappings = {
+\   'mypy': [
+\       [$TMPDIR, '/tmp/'],
+\       [getcwd() . '/application/src/', 'src/'],
+\       [getcwd() . '/application/tests/', 'tests/'],
+\       [getcwd() . '/src/', 'src/'],
+\   ],
+\   'pylint': [
+\       [getcwd() . '/application/src/', 'src/'],
+\       [getcwd() . '/application/tests/', 'tests/'],
+\       [getcwd() . '/src/', 'src/'],
+\   ],
+\}
 
 
 " ============== Recycle Bin ==========================
