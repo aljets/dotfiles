@@ -1,0 +1,3 @@
+#!/bin/bash -x
+# turn off macbook display when connected to external monitor ("closed display mode")
+sudo pmset -a lidwake 0
