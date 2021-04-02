@@ -1,3 +1,3 @@
 function b
-    git checkout (git branch --all | fzf | tr -d '[:space:][*]')
+    git checkout (git branch --all --sort=-committerdate | fzf | tr -d '[:space:][*]')
 end
