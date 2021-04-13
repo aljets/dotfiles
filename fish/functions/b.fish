@@ -3,7 +3,8 @@ function b
     # enter to open
     # ctrl-d to delete
     git branch --sort=-committerdate | fzf \
-        --bind 'ctrl-d:execute(git branch -D (echo {} | tr -d "[:space:][*]"))+reload(git branch --sort=-committerdate)' \
+        --bind 'ctrl-d:execute-silent(git branch -D (echo {} | tr -d "[:space:][*]"))+reload(git branch --sort=-committerdate)' \
+        --bind 'ctrl-k:up,ctrl-j:down' \
     # enter to checkout
     | read -l branchname; and git checkout (echo $branchname | tr -d "[:space:][*]")
 end
