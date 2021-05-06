@@ -41,11 +41,14 @@ if not set -q abbrs_initialized
     abbr -a ga git add
     abbr -a gb git branch
     abbr -a gc git commit
+    abbr -a gca git commit --amend
     abbr -a gd git diff
     abbr -a gdc git diff --cached
     abbr -a go git checkout
     abbr -a gp git pull
     abbr -a gl git l
+    abbr -a gpf git push --force
+    abbr -a grm git rebase -i origin/main
 end
 
 # https://iterm2.com/documentation-shell-integration.html

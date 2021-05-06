@@ -1,10 +1,23 @@
 #!/bin/bash
 logs(){
-    service_name=$(echo "$SERVICES" | fzf)
-    task_arn=$(aws ecs list-tasks --cluster=${DEFAULT_CLUSTER} --service-name=${service_name}-dev | jq -r '.taskArns[0]')
+    # Example configuration:
+
+    # export SERVICES="widget-service
+    # other-service"
+    #
+    # export CLUSTER_PREFIX "mycoolcluster-"
+    #
+    # export ENVIRONMENTS "production
+    # development"
+
+
+    environment=$(echo "$ENVIRONMENTS" | fzf)
+    service_name=$(echo "$SERVICES" | fzf)-$environment
+    cluster=$CLUSTER_PREFIX$environment
+    task_arn=$(aws ecs list-tasks --cluster=${cluster} --service-name=${service_name} | jq -r '.taskArns[0]')
     task_id=${task_arn##*/}
     set -x
-    ecs-cli logs --cluster=${DEFAULT_CLUSTER} --task-id=${task_id} ${@}
+    ecs-cli logs --cluster=${cluster} --task-id=${task_id} ${@}
 }
 
 logs ${@}
