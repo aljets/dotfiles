@@ -1,5 +1,6 @@
 " Goal: << 200 lines
-set shell=/bin/sh " while using fish
+" Forgot why this shell line was necessary??
+" set shell=/bin/sh " while using fish
 set nocompatible
 
 " =============== Plugin Initialization ==============
@@ -17,6 +18,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'mileszs/ack.vim'               " what's the use of this with fzf? primary difference seems the ability to keep the drawer open with :Ack!
 Plug 'tpope/vim-fugitive'            " Handy Git integration
 Plug 'shumphrey/fugitive-gitlab.vim' " Allows GitLab urls in vim-fugitive
+Plug 'tpope/vim-rhubarb'             " Allows GitHub urls in vim-fugitive
 Plug 'junegunn/gv.vim'               " `:GV` (commits), `GV!` (current file), `GV?` (loc list current file!)
 
 " Motion plugins
@@ -137,7 +139,7 @@ set grepprg=ag\ --nogroup\ --nocolor
 let g:ackprg = 'ag --nogroup --nocolor --column --ignore node_modules' " Use ag instead of ack
 
 " ================ Git Plugins ==================
-noremap <Leader>g :Gblame<CR>
+noremap <Leader>g :Git blame<CR>
 let g:fugitive_gitlab_domains = [$GITLAB_URL]
 
 " ================ FZF settings ========

@@ -1,3 +1,0 @@
-#!/bin/bash -x
-# turn on macbook display when connected to external monitor ("open display mode")
-sudo pmset -a lidwake 1
