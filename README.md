@@ -58,6 +58,10 @@ A very small list of useful vim commands. Assumes basic vim proficiency.
     * also remember there is more than `ctrl-u/d` (`ctrl-b/f/e/y`)
 * Reminder to use marks to copy/paste arbitrary chunks of code / across the screen (`ma`, ``d`a``)
 * `:%! python -m json.tool`
+* `cfdo`: https://thoughtbot.com/blog/lists-vim-and-you
+    * `ctrl-a ctrl-q` to put in quickfix list
+    * `:cfdo %s/snakeCase/snake_case/g | update` to run over each file
+    * `:cdo %s/snakeCase/snake_case/g | update` to run over each element
 
 
 vim todo

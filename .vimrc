@@ -35,6 +35,7 @@ Plug 'pangloss/vim-javascript'       " better js syntax and highlighting
 Plug 'maxmellon/vim-jsx-pretty'      " better jsx syntax and indentation
 
 " Trial plugins
+Plug 'junegunn/seoul256.vim'         " try it
 Plug 'junegunn/vim-peekaboo'         " Peek at register when typing \" and @
 Plug 'junegunn/vim-easy-align'       " Align text around `=`, markdown tables, etc.
 Plug 'easymotion/vim-easymotion'     " of dubious utility
@@ -49,6 +50,10 @@ call plug#end()
 let &t_Co=256
 let g:zenburn_high_Contrast=1
 silent! colorscheme zenburn    " formerly: wombat256. `silent!` is b/c this colorscheme is installed via vim-plug, which must run with the vimrc loaded before the colorscheme is loaded
+" seoul256 is like zenburn but with some different contrasts. Lots of nice
+" feaatures. True when have time.
+" silent! colorscheme seoul256
+" let g:seoul256_background = 234
 
 set colorcolumn=101            " line length indicator
 set ruler                      " Column/row indicator in status bar
@@ -114,7 +119,9 @@ noremap <Leader>w :w<CR>
 noremap <Leader>q :q<CR>
 noremap <Leader>x :x<CR>
 " Lexplore 25% width
-noremap <Leader>l :Lexplore 25<CR>
+noremap <Leader>er :Lexplore 25<CR>
+" Lexplore 25% width current dir
+noremap <Leader>ed :Lexplore 25 <C-r>=expand('%:p:h')<CR><CR>
 " Un-highlight highlighted words
 nmap <silent> <leader>/ :silent :nohlsearch<CR>
 " Copy paragraph and paste below
@@ -179,7 +186,7 @@ autocmd FileType yaml,tf setlocal shiftwidth=2 tabstop=2 softtabstop=2
 
 " ================ Test Stuff ========================
 let g:ale_set_loclist = 0  " required if I want to use gv.vim
-let g:ale_set_quickfix = 1
+let g:ale_set_quickfix = 1 " required to 0 if I want to use the CTRL-A CTRL-Q below, otherwise ALE keeps overwriting...
 " dsfkfdkfdksfkds_dfsfdskfld_fdsfsd
 "                   ^ da_
 " dsfkfdkfdksfkdsfdsfsd
