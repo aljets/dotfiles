@@ -66,6 +66,7 @@ set directory=~/.vimbackup//   " Change .swp files from being place in dir
 " set the dictionary, which allows things like tab completion of dictionary words
 set dictionary-=/usr/share/dict/words dictionary+=/usr/share/dict/words
 set nofoldenable               " for vim-fugitive, which seems to fold by default :\
+let &t_ut=''                   " Turn off background-color erase so navigating VIM file results in sane VIM background.
 
 " ================ Search ===========================
 set ignorecase " Case-insensitive except when using uppercase
@@ -224,3 +225,4 @@ nmap ga <Plug>(EasyAlign)
 
 " ============== Recycle Bin ==========================
 " Empty!
+"

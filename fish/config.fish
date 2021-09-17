@@ -1,3 +1,5 @@
+# `kitty` doesn't set this even if set at OS level via `chsh` (but iTerm seems to)
+set -gx SHELL '/usr/local/bin/fish'
 # ugly solution to getting env vars `$GITLAB_URL` and `$GIT_REPO_ROOT`, etc.
 source ~/repos/dotfiles/.work_fish_config
 
@@ -75,7 +77,8 @@ set fish_color_selection \x2d\x2dbackground\x3dpurple
 set fish_color_status red
 set fish_color_user \x2do\x1egreen
 set fish_color_valid_path \x2d\x2dunderline
-set fish_greeting Welcome\x20to\x20fish\x2c\x20the\x20friendly\x20interactive\x20shell\x0aType\x20\x1b\x5b32mhelp\x1b\x5b30m\x1b\x28B\x1b\x5bm\x20for\x20instructions\x20on\x20how\x20to\x20use\x20fish
+# Remove "Welcome to fish, ..."
+set fish_greeting
 set fish_key_bindings fish_default_key_bindings
 # set fish_key_bindings fish_vi_key_bindings
 set fish_pager_color_completion normal
