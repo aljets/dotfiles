@@ -15,7 +15,6 @@ Plug 'sickill/vim-monokai'
 " File plugins
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
-Plug 'mileszs/ack.vim'               " what's the use of this with fzf? primary difference seems the ability to keep the drawer open with :Ack!
 Plug 'tpope/vim-fugitive'            " Handy Git integration
 Plug 'shumphrey/fugitive-gitlab.vim' " Allows GitLab urls in vim-fugitive
 Plug 'tpope/vim-rhubarb'             " Allows GitHub urls in vim-fugitive
@@ -27,12 +26,17 @@ Plug 'tpope/vim-commentary'          " `gcc` comments out a line, `gcap`, etc.
 
 " Movement plugins
 Plug 'christoomey/vim-tmux-navigator' " allows seamless ctrl-j going from tmux split to vim split
+" COMMENT OUT UNTIL FIXED
+" Plug 'knubie/vim-kitty-navigator', {'do': 'cp ./*.py ~/.config/kitty/'} " allow seamless navigation between kitty and vim splits
 
 " Syntax plugins
 Plug 'w0rp/ale'                      " better than syntastic (async)
 Plug 'hynek/vim-python-pep8-indent'  " python indentation per pep8
 Plug 'pangloss/vim-javascript'       " better js syntax and highlighting
 Plug 'maxmellon/vim-jsx-pretty'      " better jsx syntax and indentation
+Plug 'exu/pgsql.vim'
+let g:sql_type_default = 'pgsql'
+
 
 " Trial plugins
 Plug 'junegunn/seoul256.vim'         " try it
@@ -43,17 +47,16 @@ Plug 'kana/vim-textobj-user'         " required for custom text object plugins
 Plug 'bps/vim-textobj-python'        " provides af/if/ac/ic for selecting classes and functions and [pf, ]pf, [pc, ]pc for next/previous function/class
 Plug 'Chun-Yang/vim-textobj-chunk'   " provides generic ac/ic. presumably interferes with textobj-python
 Plug 'tpope/vim-surround'            " looks extremely useful, once familiar add tpope's /vim-repeat
-Plug 'styled-components/vim-styled-components' " styled component highlighting
 call plug#end()
 
 " ================ General Config ====================
 let &t_Co=256
 let g:zenburn_high_Contrast=1
-silent! colorscheme zenburn    " formerly: wombat256. `silent!` is b/c this colorscheme is installed via vim-plug, which must run with the vimrc loaded before the colorscheme is loaded
+" silent! colorscheme zenburn    " formerly: wombat256. `silent!` is b/c this colorscheme is installed via vim-plug, which must run with the vimrc loaded before the colorscheme is loaded
 " seoul256 is like zenburn but with some different contrasts. Lots of nice
-" feaatures. True when have time.
-" silent! colorscheme seoul256
-" let g:seoul256_background = 234
+" features. Test when have time. However, maybe too low contrast.
+silent! colorscheme zenburn " Rotation: seoul256, zenburn, monokai
+let g:seoul256_background = 234
 
 set colorcolumn=101            " line length indicator
 set ruler                      " Column/row indicator in status bar
@@ -111,10 +114,10 @@ nnoremap <SPACE> <Nop>
 let mapleader=" "
 let maplocalleader="\\"
 " remap split keys from ctrl+w+j to ctrl+j
-nnoremap <C-J> <C-W><C-J>
-nnoremap <C-K> <C-W><C-K>
-nnoremap <C-L> <C-W><C-L>
-nnoremap <C-H> <C-W><C-H>
+" nnoremap <C-J> <C-W><C-J>
+" nnoremap <C-K> <C-W><C-K>
+" nnoremap <C-L> <C-W><C-L>
+" nnoremap <C-H> <C-W><C-H>
 " quick save/exit
 noremap <Leader>w :w<CR>
 noremap <Leader>q :q<CR>
@@ -136,15 +139,12 @@ nnoremap - :Ex<cr>
 " Remape escape in terminal to do what it does in insert mode
 tnoremap <ESC> <C-\><C-n>
 " ALE isort quickfix
+let g:ale_python_isort_options = ''
 augroup your_group
   autocmd!
   autocmd FileType python noremap <Leader>i :ALEFix isort<CR>
   autocmd FileType javascript,javascriptreact noremap <Leader>i :ALEFix prettier<CR>
 augroup END
-
-" ================ Ack ==============================
-set grepprg=ag\ --nogroup\ --nocolor
-let g:ackprg = 'ag --nogroup --nocolor --column --ignore node_modules' " Use ag instead of ack
 
 " ================ Git Plugins ==================
 noremap <Leader>g :Git blame<CR>
@@ -176,14 +176,9 @@ nmap <unique> <C-P> <Plug>NetrwRefresh
 
 " ================ Autocommands ======================
 autocmd BufWritePre * :%s/\s\+$//e   " Strip whitespace on save
-" Override when individuals set `vim:ft=ansible` to files
-autocmd FileType ansible setlocal syntax=yaml
 autocmd FileType yaml,tf setlocal shiftwidth=2 tabstop=2 softtabstop=2
 
 " ================ Helpers ===========================
-:autocmd FileType javascript nnoremap <buffer> <localleader>c I//<esc>
-:autocmd FileType python     nnoremap <buffer> <localleader>c I#<esc>
-:autocmd FileType python     set keywordprg=python\ -m\ pydoc
 
 " ================ Test Stuff ========================
 let g:ale_set_loclist = 0  " required if I want to use gv.vim

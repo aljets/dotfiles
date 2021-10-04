@@ -36,6 +36,12 @@ set -x FZF_DEFAULT_OPTS '
     --color bg:235,fg:246
     '
 
+# kitty
+alias title="kitty @ set-tab-title"
+
+# Fish now allows ctrl-x ctrl-e bash-style func editing (mapped here as ctrl-e)
+bind \ce edit_command_buffer
+
 # Not sure how useful these are
 if not set -q abbrs_initialized
     abbr -a ht "commandline (history --show-time='%m/%d %a %I:%M:%S %p: ' | fzf | sed -E -e 's/^[^A]*(AM|PM): //')"
