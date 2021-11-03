@@ -39,6 +39,7 @@ let g:sql_type_default = 'pgsql'
 
 
 " Trial plugins
+Plug 'raimon49/requirements.txt.vim'
 Plug 'junegunn/seoul256.vim'         " try it
 Plug 'junegunn/vim-peekaboo'         " Peek at register when typing \" and @
 Plug 'junegunn/vim-easy-align'       " Align text around `=`, markdown tables, etc.
@@ -157,6 +158,9 @@ noremap <Leader>b :Buffers<CR>
 noremap <Leader>m :Marks!<CR>
 noremap <Leader>a :Ag!
 noremap <Leader>f :Files!<CR>
+noremap <Leader>n :Notes!<CR>
+command! -bang Notes call fzf#vim#files('~/notes', {'options': ['--preview', 'mdcat {}']}, <bang>0)
+
 " Mostly for highlight: Nontext, which sets the overal popup window border as
 " more subtle (highlight groups: `:so $VIMRUNTIME/syntax/hitest.vim`)
 let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6, 'highlight': 'Nontext' } }

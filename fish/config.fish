@@ -40,7 +40,7 @@ set -x FZF_DEFAULT_OPTS '
 alias title="kitty @ set-tab-title"
 
 # Fish now allows ctrl-x ctrl-e bash-style func editing (mapped here as ctrl-e)
-bind \ce edit_command_buffer
+bind \cx edit_command_buffer
 
 # Not sure how useful these are
 if not set -q abbrs_initialized

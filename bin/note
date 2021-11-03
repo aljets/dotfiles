@@ -1,0 +1,18 @@
+#!/bin/bash
+
+note() {
+    cd ~/notes
+
+    if [ -z "$1" ]
+    then
+        filename=$(fzf --preview "mdcat {}")
+        if [ -n "$filename" ]
+        then
+            vi $filename
+        fi
+    else
+        vi "$1"
+    fi
+}
+
+note ${@}
