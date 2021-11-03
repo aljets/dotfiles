@@ -3,13 +3,14 @@
 note() {
     cd ~/notes
 
+
     if [ -z "$1" ]
     then
-        filename=$(fzf --preview "mdcat {}")
-        if [ -n "$filename" ]
-        then
-            vi $filename
-        fi
+        fzf \
+            --preview "mdcat {}" \
+            --bind 'ctrl-d:execute-silent(rm {})+reload(sh -c "$FZF_DEFAULT_COMMAND")' \
+            --bind 'enter:execute($EDITOR {})' \
+            --bind 'ctrl-n:execute(sh -c "rtouch {q}" && $EDITOR {q})+reload(sh -c "$FZF_DEFAULT_COMMAND")'
     else
         vi "$1"
     fi

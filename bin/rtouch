@@ -1,0 +1,7 @@
+#!/bin/bash
+
+rtouch() {
+    mkdir -p "$(dirname "$1")" && touch "$1" ;
+}
+
+rtouch ${@}
