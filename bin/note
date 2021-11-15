@@ -9,8 +9,10 @@ note() {
         fzf \
             --preview "mdcat {}" \
             --bind 'ctrl-d:execute-silent(rm {})+reload(sh -c "$FZF_DEFAULT_COMMAND")' \
-            --bind 'enter:execute($EDITOR {})' \
-            --bind 'ctrl-n:execute(sh -c "rtouch {q}" && $EDITOR {q})+reload(sh -c "$FZF_DEFAULT_COMMAND")'
+            --bind 'enter:execute($EDITOR {})+clear-query' \
+            --bind 'ctrl-n:execute(sh -c "rtouch {q}" && $EDITOR {q})+reload(sh -c "$FZF_DEFAULT_COMMAND")+clear-query' \
+            --header $'▔▔▔▔▔▔▔▔▔▔▔▔▔▔\n<Note name>+<CTRL>+n: new note' \
+            --header-first
     else
         vi "$1"
     fi

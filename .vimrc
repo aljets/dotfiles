@@ -25,8 +25,6 @@ Plug 'tpope/vim-unimpaired'          " [<Space>, ]<Space> to add newlines and ot
 Plug 'tpope/vim-commentary'          " `gcc` comments out a line, `gcap`, etc.
 
 " Movement plugins
-Plug 'christoomey/vim-tmux-navigator' " allows seamless ctrl-j going from tmux split to vim split
-" COMMENT OUT UNTIL FIXED
 " Plug 'knubie/vim-kitty-navigator', {'do': 'cp ./*.py ~/.config/kitty/'} " allow seamless navigation between kitty and vim splits
 
 " Syntax plugins
@@ -159,7 +157,13 @@ noremap <Leader>m :Marks!<CR>
 noremap <Leader>a :Ag!
 noremap <Leader>f :Files!<CR>
 noremap <Leader>n :Notes!<CR>
-command! -bang Notes call fzf#vim#files('~/notes', {'options': ['--preview', 'mdcat {}']}, <bang>0)
+command! -bang Notes call fzf#vim#files('~/notes', {'options': [
+    \ '--preview=mdcat {}',
+    \ '--bind=ctrl-d:execute-silent(rm {})+reload(sh -c "$FZF_DEFAULT_COMMAND")',
+    \ '--bind=ctrl-n:execute-silent(sh -c "rtouch {q}")+reload(sh -c "$FZF_DEFAULT_COMMAND")',
+    \ '--header=<note name> -> ctrl+n creates new note',
+    \ '--header-first'
+    \ ]}, <bang>0)
 
 " Mostly for highlight: Nontext, which sets the overal popup window border as
 " more subtle (highlight groups: `:so $VIMRUNTIME/syntax/hitest.vim`)
@@ -225,3 +229,58 @@ nmap ga <Plug>(EasyAlign)
 " ============== Recycle Bin ==========================
 " Empty!
 "
+"
+"
+"" ----------------------------------------------------------------------------
+" Syntax highlighting in code snippets in markdown
+" Courtesy of [junegunn](https://github.com/junegunn/dotfiles/blob/master/vimrc)
+" ----------------------------------------------------------------------------
+function! s:syntax_include(lang, b, e, inclusive)
+  let syns = split(globpath(&rtp, "syntax/".a:lang.".vim"), "\n")
+  if empty(syns)
+    return
+  endif
+
+  if exists('b:current_syntax')
+    let csyn = b:current_syntax
+    unlet b:current_syntax
+  endif
+
+  let z = "'" " Default
+  for nr in range(char2nr('a'), char2nr('z'))
+    let char = nr2char(nr)
+    if a:b !~ char && a:e !~ char
+      let z = char
+      break
+    endif
+  endfor
+
+  silent! exec printf("syntax include @%s %s", a:lang, syns[0])
+  if a:inclusive
+    exec printf('syntax region %sSnip start=%s\(\)\(%s\)\@=%s ' .
+                \ 'end=%s\(%s\)\@<=\(\)%s contains=@%s containedin=ALL',
+                \ a:lang, z, a:b, z, z, a:e, z, a:lang)
+  else
+    exec printf('syntax region %sSnip matchgroup=Snip start=%s%s%s ' .
+                \ 'end=%s%s%s contains=@%s containedin=ALL',
+                \ a:lang, z, a:b, z, z, a:e, z, a:lang)
+  endif
+
+  if exists('csyn')
+    let b:current_syntax = csyn
+  endif
+endfunction
+
+function! s:markdown_handler()
+  let map = { 'bash': 'sh' }
+  for lang in ['html', 'ruby', 'yaml', 'vim', 'sh', 'bash', 'python', 'java', 'c', 'sql', 'gnuplot']
+    call s:syntax_include(get(map, lang, lang), '```'.lang, '```', 0)
+  endfor
+
+  highlight def link Snip Folded
+
+  setlocal textwidth=78
+  setlocal completefunc=emoji#complete
+endfunction
+
+au FileType,ColorScheme markdown call <SID>markdown_handler()
