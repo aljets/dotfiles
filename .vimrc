@@ -112,11 +112,11 @@ set wildignore+=*.pyc
 nnoremap <SPACE> <Nop>
 let mapleader=" "
 let maplocalleader="\\"
-" remap split keys from ctrl+w+j to ctrl+j
-" nnoremap <C-J> <C-W><C-J>
-" nnoremap <C-K> <C-W><C-K>
-" nnoremap <C-L> <C-W><C-L>
-" nnoremap <C-H> <C-W><C-H>
+" remap split keys from ctrl+w+j to ctrl+j. required if not using kitty or tmux navigator plugin.
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
 " quick save/exit
 noremap <Leader>w :w<CR>
 noremap <Leader>q :q<CR>
@@ -157,17 +157,26 @@ noremap <Leader>m :Marks!<CR>
 noremap <Leader>a :Ag!
 noremap <Leader>f :Files!<CR>
 noremap <Leader>n :Notes!<CR>
-command! -bang Notes call fzf#vim#files('~/notes', {'options': [
+" Git status
+noremap <Leader>gs :GFiles?<CR>
+" Git log
+noremap <Leader>gl :Commits!<CR>
+noremap <Leader>h :History:<CR>
+command! -bang Notes call fzf#vim#files('~/notes', {'source': 'fd --type file -X ls -dt', 'options': [
     \ '--preview=mdcat {}',
     \ '--bind=ctrl-d:execute-silent(rm {})+reload(sh -c "$FZF_DEFAULT_COMMAND")',
-    \ '--bind=ctrl-n:execute-silent(sh -c "rtouch {q}")+reload(sh -c "$FZF_DEFAULT_COMMAND")',
-    \ '--header=<note name> -> ctrl+n creates new note',
+    \ '--bind=ctrl-s:execute-silent(sh -c "rtouch {q}")+reload(sh -c "$FZF_DEFAULT_COMMAND")',
+    \ '--bind=ctrl-n:preview-half-page-up',
+    \ '--bind=ctrl-p:preview-half-page-down',
+    \ '--header=<note name> -> ctrl+s creates new note',
     \ '--header-first'
     \ ]}, <bang>0)
 
 " Mostly for highlight: Nontext, which sets the overal popup window border as
 " more subtle (highlight groups: `:so $VIMRUNTIME/syntax/hitest.vim`)
 let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6, 'highlight': 'Nontext' } }
+" default preview window to larger than 50%
+let g:fzf_preview_window = ['right:70%', 'ctrl-/']
 " let g:fzf_layout = { 'down': '40%' } " use location window, not popup
 
 " ================ Explorer =========================
@@ -190,7 +199,7 @@ autocmd FileType yaml,tf setlocal shiftwidth=2 tabstop=2 softtabstop=2
 
 " ================ Test Stuff ========================
 let g:ale_set_loclist = 0  " required if I want to use gv.vim
-let g:ale_set_quickfix = 1 " required to 0 if I want to use the CTRL-A CTRL-Q below, otherwise ALE keeps overwriting...
+let g:ale_set_quickfix = 0 " required to 0 if I want to use the CTRL-A CTRL-Q below, otherwise ALE keeps overwriting...
 " dsfkfdkfdksfkds_dfsfdskfld_fdsfsd
 "                   ^ da_
 " dsfkfdkfdksfkdsfdsfsd
@@ -225,6 +234,10 @@ let g:fzf_action = {
 xmap ga <Plug>(EasyAlign)
 " Start interactive EasyAlign for a motion/text object (e.g. gaip)
 nmap ga <Plug>(EasyAlign)
+
+" allow project-specific vimrc, e.g. `set path+=`
+set exrc
+set secure
 
 " ============== Recycle Bin ==========================
 " Empty!

@@ -1,0 +1,12 @@
+#! /bin/sh
+
+fdocker() {
+    LOAD="docker ps -a | sed 1d"
+    docker ps -a | sed 1d | fzf -q "$1" \
+        --bind "ctrl-d:execute-silent(echo {} | awk '{print \$1}' | xargs docker rm)+reload($LOAD)" \
+        --bind "ctrl-x:execute(echo {} | awk '{print \$1}' | xargs docker stop)+reload($LOAD)" \
+        --header $'▔▔▔▔▔▔▔▔▔▔▔▔▔▔\n<CTRL>+d: remove container\n<CTRL>+x: stop container' \
+        --header-first
+}
+
+fdocker ${@}

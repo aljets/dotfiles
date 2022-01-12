@@ -33,8 +33,13 @@ set __fish_git_prompt_color_branch yellow
 # than vim looks good (bg:233,border:234).
 set -x FZF_DEFAULT_OPTS '
     --bind=ctrl-d:page-down,ctrl-u:page-up,ctrl-a:select-all
+    --bind=ctrl-n:preview-half-page-down,ctrl-p:preview-half-page-up
     --color bg:235,fg:246
     '
+
+# FZF
+# gl - git log
+# gs - git status files
 
 # kitty
 alias title="kitty @ set-tab-title"
