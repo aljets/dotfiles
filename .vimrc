@@ -198,8 +198,12 @@ autocmd FileType yaml,tf setlocal shiftwidth=2 tabstop=2 softtabstop=2
 " ================ Helpers ===========================
 
 " ================ Test Stuff ========================
-let g:ale_set_loclist = 0  " required if I want to use gv.vim
-let g:ale_set_quickfix = 0 " required to 0 if I want to use the CTRL-A CTRL-Q below, otherwise ALE keeps overwriting...
+" To not have ALE be constantly overwriting loclist or quickfix and be able to
+" use for other purposes, have to map command to populate list only on demand
+let g:ale_set_loclist = 0  " .e.g, gv.vim uses loclist
+let g:ale_set_quickfix = 0 " e.g., CTRL-A CTRL-Q below uses quickfix
+noremap <Leader>t :ALEPopulateLocList<CR>
+
 " dsfkfdkfdksfkds_dfsfdskfld_fdsfsd
 "                   ^ da_
 " dsfkfdkfdksfkdsfdsfsd

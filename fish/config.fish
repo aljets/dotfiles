@@ -43,6 +43,8 @@ set -x FZF_DEFAULT_OPTS '
 
 # kitty
 alias title="kitty @ set-tab-title"
+# kitty is "proper" and sets its own TERM, have to reset to play nice when ssh'ing
+alias ssh='env TERM=xterm-256color ssh'
 
 # Fish now allows ctrl-x ctrl-e bash-style func editing (mapped here as ctrl-e)
 bind \cx edit_command_buffer

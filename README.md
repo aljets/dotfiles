@@ -75,6 +75,7 @@ vim todo
   interesting, so does `clever-f`, possibly)
 * look up multilvel undo
 * look up undofile
+* `cfdo`
 
 
 vim links I liked
