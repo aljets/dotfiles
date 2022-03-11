@@ -179,6 +179,20 @@ let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6, 'highlight': 'Nont
 let g:fzf_preview_window = ['right:70%', 'ctrl-/']
 " let g:fzf_layout = { 'down': '40%' } " use location window, not popup
 
+" Cool thing that allows me to put fzf results in a quickfix list, which
+" helps things like renaming func's.
+" CTRL-A CTRL-Q to select all and build quickfix list
+function! s:build_quickfix_list(lines)
+  call setqflist(map(copy(a:lines), '{ "filename": v:val }'))
+  copen
+  cc
+endfunction
+let g:fzf_action = {
+  \ 'ctrl-q': function('s:build_quickfix_list'),
+  \ 'ctrl-t': 'tab split',
+  \ 'ctrl-x': 'split',
+  \ 'ctrl-v': 'vsplit' }
+
 " ================ Explorer =========================
 " Can probably stop hiding swp/swo files now that I changed `directory`
 let g:netrw_list_hide= '.pyc$,.pyc\s'   " Cycle with 'a'
@@ -219,21 +233,6 @@ endfor
 :autocmd FileType text,markdown setlocal complete+=k   " dictionary available for completion
 :autocmd FileType netrw setlocal nolist                " list is awful in netrw
 
-" CTRL-A CTRL-Q to select all and build quickfix list
-function! s:build_quickfix_list(lines)
-  call setqflist(map(copy(a:lines), '{ "filename": v:val }'))
-  copen
-  cc
-endfunction
-
-" Weird thing that allows me to put fzf results in a quickfix list, which
-" helps things like renaming func's
-let g:fzf_action = {
-  \ 'ctrl-q': function('s:build_quickfix_list'),
-  \ 'ctrl-t': 'tab split',
-  \ 'ctrl-x': 'split',
-  \ 'ctrl-v': 'vsplit' }
-
 " Start interactive EasyAlign in visual mode (e.g. vipga)
 xmap ga <Plug>(EasyAlign)
 " Start interactive EasyAlign for a motion/text object (e.g. gaip)
@@ -245,7 +244,6 @@ set secure
 
 " ============== Recycle Bin ==========================
 " Empty!
-"
 "
 "
 "" ----------------------------------------------------------------------------
