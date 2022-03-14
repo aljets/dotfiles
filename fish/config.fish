@@ -1,5 +1,8 @@
+# Homebrew installs to different locations for different chips/OSes (see install docs):
+set --local brew_install_directory /opt/homebrew
+
 # `kitty` doesn't set this even if set at OS level via `chsh` (but iTerm seems to)
-set -gx SHELL '/usr/local/bin/fish'
+set -gx SHELL $brew_install_directory'/bin/fish'
 # ugly solution to getting env vars `$GITLAB_URL` and `$GIT_REPO_ROOT`, etc.
 source ~/repos/dotfiles/.work_fish_config
 
@@ -12,8 +15,12 @@ set -gx VIRTUAL_ENV_DISABLE_PROMPT 'True'
 # Load pydev venv
 pydev
 
+# pyenv setup
+status is-login; and pyenv init --path | source
+status is-interactive; and pyenv init - | source
+
 set -gx EDITOR vim
-set -gx PATH $PATH ~/bin ~/.fzf/bin
+fish_add_path ~/.fzf/bin $brew_install_directory'/bin' ~/.pyenv/bin ~/bin
 
 # Use ag for fzf initialization; show hidden files
 set -gx FZF_DEFAULT_COMMAND 'ag --hidden --ignore .git -g ""'
