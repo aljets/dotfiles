@@ -20,7 +20,9 @@ status is-login; and pyenv init --path | source
 status is-interactive; and pyenv init - | source
 
 set -gx EDITOR vim
-fish_add_path ~/.fzf/bin $brew_install_directory'/bin' ~/.pyenv/bin ~/bin
+# Add openjdk for java stuff (withokta only?)
+fish_add_path ~/.fzf/bin $brew_install_directory'/bin' ~/.pyenv/bin ~/bin ~/.okta/bin
+fish_add_path /opt/homebrew/opt/openjdk/bin
 
 # Use ag for fzf initialization; show hidden files
 set -gx FZF_DEFAULT_COMMAND 'ag --hidden --ignore .git -g ""'
