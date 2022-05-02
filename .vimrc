@@ -11,6 +11,9 @@ call plug#begin('~/.vim/plugged')
 " Theme
 Plug 'jnurmine/Zenburn'
 Plug 'sickill/vim-monokai'
+" temporarily try nord
+set termguicolors
+Plug 'jcypret/nord-vim-midnight'
 
 " File plugins
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
@@ -34,10 +37,10 @@ Plug 'pangloss/vim-javascript'       " better js syntax and highlighting
 Plug 'maxmellon/vim-jsx-pretty'      " better jsx syntax and indentation
 Plug 'exu/pgsql.vim'
 let g:sql_type_default = 'pgsql'
+Plug 'raimon49/requirements.txt.vim'
 
 
 " Trial plugins
-Plug 'raimon49/requirements.txt.vim'
 Plug 'junegunn/seoul256.vim'         " try it
 Plug 'junegunn/vim-peekaboo'         " Peek at register when typing \" and @
 Plug 'junegunn/vim-easy-align'       " Align text around `=`, markdown tables, etc.
