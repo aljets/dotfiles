@@ -25,7 +25,7 @@ fish_add_path ~/.fzf/bin $brew_install_directory'/bin' ~/.pyenv/bin ~/bin ~/.okt
 fish_add_path /opt/homebrew/opt/openjdk/bin
 
 # Use ag for fzf initialization; show hidden files
-set -gx FZF_DEFAULT_COMMAND 'ag --hidden --ignore .git -g ""'
+set -gx FZF_DEFAULT_COMMAND 'ag --hidden --ignore .git --ignore prototypes -g ""'
 
 # Need to spend time cleaning this up
 # I don't think these do anything since I'm not using the fish git prompt stuff
@@ -55,7 +55,7 @@ alias title="kitty @ set-tab-title"
 # kitty is "proper" and sets its own TERM, have to reset to play nice when ssh'ing
 alias ssh='env TERM=xterm-256color ssh'
 
-# Fish now allows ctrl-x ctrl-e bash-style func editing (mapped here as ctrl-e)
+# Fish now allows ctrl-x ctrl-e bash-style func editing (mapped here as ctrl-x)
 bind \cx edit_command_buffer
 
 # Not sure how useful these are
@@ -107,3 +107,7 @@ set fish_pager_color_completion normal
 set fish_pager_color_description 555\x1eyellow
 set fish_pager_color_prefix cyan
 set fish_pager_color_progress cyan
+
+function fc
+    commandline -r $history[$argv[1]..1] && edit_command_line_buffer
+end

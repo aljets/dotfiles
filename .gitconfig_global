@@ -8,3 +8,6 @@
 
 [pull]
     rebase = true
+
+[core]
+    excludesfile = ~/tools/dotfiles/.gitignore_global

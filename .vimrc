@@ -26,6 +26,7 @@ Plug 'junegunn/gv.vim'               " `:GV` (commits), `GV!` (current file), `G
 " Motion plugins
 Plug 'tpope/vim-unimpaired'          " [<Space>, ]<Space> to add newlines and other handy bracket mappings
 Plug 'tpope/vim-commentary'          " `gcc` comments out a line, `gcap`, etc.
+Plug 'junegunn/vim-easy-align'       " Align text around `=`, markdown tables, etc.
 
 " Movement plugins
 " Plug 'knubie/vim-kitty-navigator', {'do': 'cp ./*.py ~/.config/kitty/'} " allow seamless navigation between kitty and vim splits
@@ -39,11 +40,9 @@ Plug 'exu/pgsql.vim'
 let g:sql_type_default = 'pgsql'
 Plug 'raimon49/requirements.txt.vim'
 
-
 " Trial plugins
 Plug 'junegunn/seoul256.vim'         " try it
 Plug 'junegunn/vim-peekaboo'         " Peek at register when typing \" and @
-Plug 'junegunn/vim-easy-align'       " Align text around `=`, markdown tables, etc.
 Plug 'easymotion/vim-easymotion'     " of dubious utility
 Plug 'kana/vim-textobj-user'         " required for custom text object plugins
 Plug 'bps/vim-textobj-python'        " provides af/if/ac/ic for selecting classes and functions and [pf, ]pf, [pc, ]pc for next/previous function/class
@@ -154,7 +153,7 @@ let g:fugitive_gitlab_domains = [$GITLAB_URL]
 
 " ================ FZF settings ========
 " Reminder old fzf settings for use with git: let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files . -co --exclude-standard', 'find %s -type f']
-" Shorcuts to fzf commands. `!` denotes fullsreen.
+" Shortcuts to fzf commands. `!` denotes fullsreen.
 noremap <Leader>b :Buffers<CR>
 noremap <Leader>m :Marks!<CR>
 noremap <Leader>a :Ag!
@@ -179,7 +178,7 @@ command! -bang Notes call fzf#vim#files('~/notes', {'source': 'fd --type file -X
 " more subtle (highlight groups: `:so $VIMRUNTIME/syntax/hitest.vim`)
 let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6, 'highlight': 'Nontext' } }
 " default preview window to larger than 50%
-let g:fzf_preview_window = ['right:70%', 'ctrl-/']
+let g:fzf_preview_window = ['up:70%', 'ctrl-/']
 " let g:fzf_layout = { 'down': '40%' } " use location window, not popup
 
 " Cool thing that allows me to put fzf results in a quickfix list, which
@@ -197,8 +196,7 @@ let g:fzf_action = {
   \ 'ctrl-v': 'vsplit' }
 
 " ================ Explorer =========================
-" Can probably stop hiding swp/swo files now that I changed `directory`
-let g:netrw_list_hide= '.pyc$,.pyc\s'   " Cycle with 'a'
+let g:netrw_list_hide= netrw_gitignore#Hide() " Use .gitignore for ignored files; cycle through w/ `a`
 let g:netrw_liststyle = 0                     " Tree-like explorer (cycle through with 'i'). thin/long/tree 0/1/3
 let g:netrw_banner = 0                        " Remove banner (cycle through with 'I')
 " let g:netrw_sort_options = 'i'              " Ignore case in sort
@@ -245,10 +243,6 @@ nmap ga <Plug>(EasyAlign)
 set exrc
 set secure
 
-" ============== Recycle Bin ==========================
-" Empty!
-"
-"
 "" ----------------------------------------------------------------------------
 " Syntax highlighting in code snippets in markdown
 " Courtesy of [junegunn](https://github.com/junegunn/dotfiles/blob/master/vimrc)
@@ -302,3 +296,8 @@ function! s:markdown_handler()
 endfunction
 
 au FileType,ColorScheme markdown call <SID>markdown_handler()
+
+" ============== Recycle Bin ==========================
+" Empty!
+"
+"
