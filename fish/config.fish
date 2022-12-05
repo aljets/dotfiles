@@ -1,3 +1,7 @@
+function fish_right_prompt -d "Write out the right prompt"
+    set_color 65A; date '+%-H:%M:%S %m/%d/%y'; set_color normal
+end
+
 # Homebrew installs to different locations for different chips/OSes (see install docs):
 set --local brew_install_directory /opt/homebrew
 
@@ -53,6 +57,7 @@ set -x FZF_DEFAULT_OPTS '
 # kitty
 alias title="kitty @ set-tab-title"
 # kitty is "proper" and sets its own TERM, have to reset to play nice when ssh'ing
+alias s="env TERM=xterm-256color kitty +kitten ssh"
 alias ssh='env TERM=xterm-256color ssh'
 
 # Fish now allows ctrl-x ctrl-e bash-style func editing (mapped here as ctrl-x)

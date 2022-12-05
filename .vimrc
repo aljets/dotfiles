@@ -39,6 +39,7 @@ Plug 'maxmellon/vim-jsx-pretty'      " better jsx syntax and indentation
 Plug 'exu/pgsql.vim'
 let g:sql_type_default = 'pgsql'
 Plug 'raimon49/requirements.txt.vim'
+Plug 'hashivim/vim-terraform'
 
 " Trial plugins
 Plug 'junegunn/seoul256.vim'         " try it
