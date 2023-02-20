@@ -211,6 +211,9 @@ nmap <unique> <C-P> <Plug>NetrwRefresh
 autocmd BufWritePre * :%s/\s\+$//e   " Strip whitespace on save
 autocmd FileType yaml,tf setlocal shiftwidth=2 tabstop=2 softtabstop=2
 
+" ================ ALE ===============================
+let ale_virtualtext_cursor = 0  " Fix injudicious use of virtualtext
+
 " ================ Helpers ===========================
 
 " ================ Test Stuff ========================
