@@ -48,6 +48,7 @@ set -x FZF_DEFAULT_OPTS '
     --bind=ctrl-d:page-down,ctrl-u:page-up,ctrl-a:select-all
     --bind=ctrl-n:preview-half-page-down,ctrl-p:preview-half-page-up
     --color bg:235,fg:246
+    --height ~40% --reverse
     '
 
 # FZF

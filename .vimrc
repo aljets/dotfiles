@@ -49,6 +49,8 @@ Plug 'kana/vim-textobj-user'         " required for custom text object plugins
 Plug 'bps/vim-textobj-python'        " provides af/if/ac/ic for selecting classes and functions and [pf, ]pf, [pc, ]pc for next/previous function/class
 Plug 'Chun-Yang/vim-textobj-chunk'   " provides generic ac/ic. presumably interferes with textobj-python
 Plug 'tpope/vim-surround'            " looks extremely useful, once familiar add tpope's /vim-repeat
+Plug 'madox2/vim-ai'                 " ChatGPT bandwagon
+Plug 'github/copilot.vim'
 call plug#end()
 
 " ================ General Config ====================
@@ -165,6 +167,7 @@ noremap <Leader>gs :GFiles?<CR>
 " Git log
 noremap <Leader>gl :Commits!<CR>
 noremap <Leader>h :History:<CR>
+:let $FZF_DEFAULT_OPTS .= '--layout=default'
 command! -bang Notes call fzf#vim#files('~/notes', {'source': 'fd --type file -X ls -dt', 'options': [
     \ '--preview=mdcat {}',
     \ '--bind=ctrl-d:execute-silent(rm {})+reload(sh -c "$FZF_DEFAULT_COMMAND")',
@@ -212,7 +215,7 @@ autocmd BufWritePre * :%s/\s\+$//e   " Strip whitespace on save
 autocmd FileType yaml,tf setlocal shiftwidth=2 tabstop=2 softtabstop=2
 
 " ================ ALE ===============================
-let ale_virtualtext_cursor = 0  " Fix injudicious use of virtualtext
+" let ale_virtualtext_cursor = 0  " Fix injudicious use of virtualtext
 
 " ================ Helpers ===========================
 

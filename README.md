@@ -62,12 +62,12 @@ A very small list of useful vim commands. Assumes basic vim proficiency.
     * `ctrl-a ctrl-q` to put in quickfix list
     * `:cfdo %s/snakeCase/snake_case/g | update` to run over each file
     * `:cdo %s/snakeCase/snake_case/g | update` to run over each element
+* Don't forget about vim unimpaired. i.e. `[u` and `]u` encode and decode URLs
 
 
 vim todo
 --------
 
-* Don't use `,` as leader!!! (probably space)
 * Investigate `:help changes`
 * Investigate `vimux`?
 * Consider `vim-sleuth`
@@ -114,8 +114,8 @@ Things I forgot:
 * [Fish basics](https://fishshell.com/docs/current/tutorial.html)
 
 
-tmux
-----
+tmux (with kitty I no longer use tmux)
+---------------------------------------
 
 * [Intro to point people to](http://tmuxp.readthedocs.io/en/latest/about_tmux.html)
     * Basic key mappings and tmux functionality
