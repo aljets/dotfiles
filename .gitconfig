@@ -7,3 +7,5 @@
 [includeIf "gitdir:~/repos/"]
     # Work name and email for work repos
     path = ~/repos/dotfiles/.gitconfig_work
+[init]
+    defaultBranch = main

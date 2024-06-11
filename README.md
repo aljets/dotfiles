@@ -63,6 +63,9 @@ A very small list of useful vim commands. Assumes basic vim proficiency.
     * `:cfdo %s/snakeCase/snake_case/g | update` to run over each file
     * `:cdo %s/snakeCase/snake_case/g | update` to run over each element
 * Don't forget about vim unimpaired. i.e. `[u` and `]u` encode and decode URLs
+* Numbered lists:
+    * `ctrl-a` increment / `ctrl-x` decrement under cursor or first occurence
+      to right. Can add prefix e.g. `3 ctrl-a`
 
 
 vim todo

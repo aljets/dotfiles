@@ -20,8 +20,9 @@ set -gx VIRTUAL_ENV_DISABLE_PROMPT 'True'
 pydev
 
 # pyenv setup
-status is-login; and pyenv init --path | source
-status is-interactive; and pyenv init - | source
+# wow this was slow
+#status is-login; and pyenv init --path | source
+#status is-interactive; and pyenv init - | source
 
 set -gx EDITOR vim
 # Add openjdk for java stuff (withokta only?)

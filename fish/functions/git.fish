@@ -47,6 +47,7 @@ function _git_l
   git log --date=short --format="%C(green)%C(bold)%cd %C(auto)%h%d %s (%an)" --graph --color=always |
   _fzf-down --ansi --no-sort --reverse --multi --bind 'ctrl-s:toggle-sort' \
     --header 'Press CTRL-S to toggle sort' \
+    #--preview 'echo {} | grep -o "[a-f0-9]\{7,\}" | xargs git show | chatblade -o explain the commit changes points, use extremely terse bullet points && echo {} | grep -o "[a-f0-9]\{7,\}" | xargs git show --color=always' |
     --preview 'echo {} | grep -o "[a-f0-9]\{7,\}" | xargs git show --color=always' |
   grep -o "[a-f0-9]\{7,\}"
 end

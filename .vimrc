@@ -50,7 +50,10 @@ Plug 'bps/vim-textobj-python'        " provides af/if/ac/ic for selecting classe
 Plug 'Chun-Yang/vim-textobj-chunk'   " provides generic ac/ic. presumably interferes with textobj-python
 Plug 'tpope/vim-surround'            " looks extremely useful, once familiar add tpope's /vim-repeat
 Plug 'madox2/vim-ai'                 " ChatGPT bandwagon
-Plug 'github/copilot.vim'
+
+" Work..
+Plug 'Exafunction/codeium.vim'
+
 call plug#end()
 
 " ================ General Config ====================
