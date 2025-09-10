@@ -74,7 +74,9 @@ if not set -q abbrs_initialized
     abbr -a gc git commit
     abbr -a gca git commit --amend
     abbr -a gd git diff
+    abbr -a gdw git diff -w
     abbr -a gdc git diff --cached
+    abbr -a gdcw git diff --cached -w
     abbr -a go git checkout
     abbr -a gp git pull
     abbr -a gl git l

@@ -49,12 +49,10 @@ Plug 'kana/vim-textobj-user'         " required for custom text object plugins
 Plug 'bps/vim-textobj-python'        " provides af/if/ac/ic for selecting classes and functions and [pf, ]pf, [pc, ]pc for next/previous function/class
 Plug 'Chun-Yang/vim-textobj-chunk'   " provides generic ac/ic. presumably interferes with textobj-python
 Plug 'tpope/vim-surround'            " looks extremely useful, once familiar add tpope's /vim-repeat
-Plug 'madox2/vim-ai'                 " ChatGPT bandwagon
-
-" Work..
-Plug 'Exafunction/codeium.vim'
+" Plug 'madox2/vim-ai'                 " ChatGPT bandwagon
 
 call plug#end()
+
 
 " ================ General Config ====================
 let &t_Co=256
@@ -203,7 +201,8 @@ let g:fzf_action = {
   \ 'ctrl-v': 'vsplit' }
 
 " ================ Explorer =========================
-let g:netrw_list_hide= netrw_gitignore#Hide() " Use .gitignore for ignored files; cycle through w/ `a`
+" let g:netrw_list_hide= netrw_gitignore#Hide() " Use .gitignore for ignored files; cycle through w/ `a`
+autocmd VimEnter * let g:netrw_list_hide = netrw_gitignore#Hide()
 let g:netrw_liststyle = 0                     " Tree-like explorer (cycle through with 'i'). thin/long/tree 0/1/3
 let g:netrw_banner = 0                        " Remove banner (cycle through with 'I')
 " let g:netrw_sort_options = 'i'              " Ignore case in sort
@@ -309,5 +308,3 @@ au FileType,ColorScheme markdown call <SID>markdown_handler()
 
 " ============== Recycle Bin ==========================
 " Empty!
-"
-"

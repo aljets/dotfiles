@@ -1,1 +1,4 @@
 .DS_Store
+CRUSH.md
+.crush/
+crush-*.log
