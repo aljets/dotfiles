@@ -1,3 +1,3 @@
 function pydev
-    source ~/.virtualenvs/py311/bin/activate.fish
+    source ~/.virtualenvs/py312/bin/activate.fish
 end
