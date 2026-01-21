@@ -84,9 +84,6 @@ if not set -q abbrs_initialized
     abbr -a grm git rebase -i origin/main
 end
 
-# https://iterm2.com/documentation-shell-integration.html
-source ~/.iterm2_shell_integration.fish
-
 # Theme
 set fish_color_autosuggestion 555\x1eyellow
 set fish_color_command 005fd7\x1epurple
