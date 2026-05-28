@@ -1,0 +1,287 @@
+#!/usr/bin/env bash
+# wifi-debug — capture a snapshot of wifi + connectivity state for diagnosing drops.
+#
+# Usage:
+#   wifi-debug                snapshot once, print + append to log
+#   wifi-debug --watch [SEC]  loop every SEC seconds (default 10)
+#   wifi-debug --tail         show the most recent snapshot from the log
+#   wifi-debug --logs         dump recent wifi-related system logs only
+#
+# Log file: ~/wifi-debug-logs/wifi-debug.log
+
+set -u
+
+LOG_DIR="$HOME/notes/wifi-debug"
+LOG_FILE="$LOG_DIR/wifi-debug.log"
+mkdir -p "$LOG_DIR"
+
+# Short timeouts so the script stays responsive when the net is dead.
+PING_COUNT=3
+PING_TIMEOUT=2   # seconds per ping
+CMD_TIMEOUT=5    # seconds per command
+
+# macOS doesn't ship `timeout`; emulate it.
+run_timeout() {
+  local secs="$1"; shift
+  (
+    "$@" &
+    local pid=$!
+    ( sleep "$secs"; kill -TERM "$pid" 2>/dev/null ) &
+    local watcher=$!
+    wait "$pid" 2>/dev/null
+    kill -TERM "$watcher" 2>/dev/null
+    wait "$watcher" 2>/dev/null
+  )
+}
+
+section() {
+  echo
+  echo "===== $* ====="
+}
+
+# Identify the wifi hardware port and device (usually Wi-Fi / en0, but not always).
+wifi_device() {
+  networksetup -listallhardwareports 2>/dev/null \
+    | awk '/Hardware Port: Wi-Fi/{getline; print $2; exit}'
+}
+
+# Identify the currently used default route's interface (so we can tell if wifi
+# is even the active path).
+default_iface() {
+  route -n get default 2>/dev/null | awk '/interface:/{print $2}'
+}
+
+default_gateway() {
+  route -n get default 2>/dev/null | awk '/gateway:/{print $2}'
+}
+
+# Gateway reachable via the wifi interface specifically. Differs from
+# default_gateway() when VPN is the default route (utun has no gateway IP).
+wifi_gateway() {
+  local dev="${1:-en0}"
+  route -n get -ifscope "$dev" default 2>/dev/null | awk '/gateway:/{print $2}'
+}
+
+snapshot() {
+  local ts wifi_dev def_if def_gw wgw
+  ts="$(date '+%Y-%m-%d %H:%M:%S %z')"
+  wifi_dev="$(wifi_device)"
+  def_if="$(default_iface)"
+  def_gw="$(default_gateway)"
+  wgw="$(wifi_gateway "$wifi_dev")"
+
+  # Temp files for parallelized sections
+  local tmp_wdutil tmp_nearby tmp_syslog tmp_ping_gw tmp_ping_wgw tmp_ping_8888 tmp_ping_1111
+  tmp_wdutil=$(mktemp)
+  tmp_nearby=$(mktemp)
+  tmp_syslog=$(mktemp)
+  tmp_ping_gw=$(mktemp)
+  tmp_ping_wgw=$(mktemp)
+  tmp_ping_8888=$(mktemp)
+  tmp_ping_1111=$(mktemp)
+
+  # --- kick off all slow jobs in parallel immediately ---
+
+  local pid_wdutil="" pid_nearby pid_syslog pid_ping_gw="" pid_ping_wgw="" pid_ping_8888 pid_ping_1111
+  if sudo -n true 2>/dev/null; then
+    run_timeout "$CMD_TIMEOUT" sudo -n wdutil info >"$tmp_wdutil" 2>&1 &
+    pid_wdutil=$!
+  else
+    echo "(skipped: needs sudo. Run \`sudo wifi-debug\` for RSSI, noise, channel, BSSID)" >"$tmp_wdutil"
+  fi
+
+  run_timeout 10 system_profiler -detailLevel basic SPAirPortDataType >"$tmp_nearby" 2>&1 &
+  pid_nearby=$!
+
+  run_timeout 10 log show --last 5m --style compact \
+    --predicate 'subsystem == "com.apple.wifi" OR process == "wifid" OR process == "airportd" OR eventMessage CONTAINS[c] "wifi" OR eventMessage CONTAINS[c] "disassociat" OR eventMessage CONTAINS[c] "deauth"' \
+    >"$tmp_syslog" 2>&1 &
+  pid_syslog=$!
+
+  if [ -n "$def_gw" ]; then
+    run_timeout "$CMD_TIMEOUT" ping -c "$PING_COUNT" -W "$((PING_TIMEOUT*1000))" "$def_gw" >"$tmp_ping_gw" 2>&1 &
+    pid_ping_gw=$!
+  fi
+
+  if [ -n "$wgw" ] && [ "$wgw" != "$def_gw" ]; then
+    run_timeout "$CMD_TIMEOUT" ping -c "$PING_COUNT" -W "$((PING_TIMEOUT*1000))" "$wgw" >"$tmp_ping_wgw" 2>&1 &
+    pid_ping_wgw=$!
+  fi
+
+  local iface_8888 iface_1111
+  iface_8888="$(route -n get 8.8.8.8 2>/dev/null | awk '/interface:/{print $2}')"
+  iface_1111="$(route -n get 1.1.1.1 2>/dev/null | awk '/interface:/{print $2}')"
+  run_timeout "$CMD_TIMEOUT" ping -c "$PING_COUNT" -W "$((PING_TIMEOUT*1000))" 8.8.8.8 >"$tmp_ping_8888" 2>&1 &
+  pid_ping_8888=$!
+  run_timeout "$CMD_TIMEOUT" ping -c "$PING_COUNT" -W "$((PING_TIMEOUT*1000))" 1.1.1.1 >"$tmp_ping_1111" 2>&1 &
+  pid_ping_1111=$!
+
+  # --- fast synchronous work while slow jobs run ---
+
+  # AP gateway MAC via ARP
+  local ap_mac=""
+  if [ -n "$wgw" ] && [ -n "$wifi_dev" ]; then
+    ap_mac=$(arp -n -i "$wifi_dev" "$wgw" 2>/dev/null | awk '{print $4}')
+  fi
+
+  # BSSID via airport -I (wdutil redacts it; airport may hang so use short timeout)
+  local ap_bssid=""
+  ap_bssid=$(run_timeout 3 \
+    /System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport -I 2>/dev/null \
+    | awk '/ BSSID:/{print $2}')
+
+  # VPN state
+  local vpn_state=""
+  vpn_state=$(/opt/cisco/anyconnect/bin/vpn state 2>/dev/null | awk '/>> state:/{print $3}' | head -1)
+
+  # --- print output in order, waiting for background jobs as needed ---
+
+  echo "########## $ts ##########"
+  echo "wifi device: ${wifi_dev:-unknown}"
+  echo "default route iface: ${def_if:-none}    gateway: ${def_gw:-none}"
+
+  section "AP identification"
+  echo "WiFi gateway IP : ${wgw:-(none)}  via ${wifi_dev:-en0}"
+  echo "Gateway MAC     : ${ap_mac:-(ARP incomplete -- gateway not responding)}"
+  echo "Associated BSSID: ${ap_bssid:-(unavailable -- airport timed out or not associated)}"
+  echo "VPN             : ${vpn_state:-(AnyConnect not responding or not installed)}"
+
+  section "wdutil info (wifi state, signal, channel, BSSID)"
+  [ -n "$pid_wdutil" ] && wait "$pid_wdutil"
+  cat "$tmp_wdutil"
+
+  section "networksetup current SSID"
+  if [ -n "$wifi_dev" ]; then
+    networksetup -getairportnetwork "$wifi_dev" 2>&1
+    networksetup -getinfo "Wi-Fi" 2>&1
+  else
+    echo "(no wifi device found)"
+  fi
+
+  section "interface state ($wifi_dev)"
+  if [ -n "$wifi_dev" ]; then
+    ifconfig "$wifi_dev" 2>&1
+  fi
+
+  section "all interfaces with addresses"
+  ifconfig 2>&1 | awk '
+    /^[a-z]/ {iface=$1}
+    /inet / {print iface, $0}
+  '
+
+  section "routing table (default + first few)"
+  netstat -rn -f inet 2>&1 | head -20
+
+  section "DNS resolvers (scutil --dns, primary scope)"
+  scutil --dns 2>&1 | awk '/resolver #1/,/^$/'
+
+  section "connectivity tests"
+  # Interpreting results:
+  #   wifi gateway times out                               -> WiFi/radio layer broken
+  #   wifi gateway ok, direct ISP ping times out          -> ISP or router WAN is down
+  #   wifi gateway ok, direct ISP ping ok, 1.1.1.1 fails  -> VPN tunnel broken
+  if [ -n "$pid_ping_gw" ]; then
+    echo "-- ping default gateway ($def_gw)"
+    wait "$pid_ping_gw"
+    tail -5 "$tmp_ping_gw"
+  else
+    echo "-- no default gateway, skipping gateway ping"
+  fi
+
+  if [ -n "$pid_ping_wgw" ]; then
+    echo
+    echo "-- ping wifi gateway ($wgw via $wifi_dev, bypasses VPN routing)"
+    wait "$pid_ping_wgw"
+    tail -5 "$tmp_ping_wgw"
+  fi
+
+  echo
+  if [ -z "$iface_8888" ]; then
+    echo "-- ping 8.8.8.8 (route unknown)"
+  elif [ "$iface_8888" = "$wifi_dev" ]; then
+    echo "-- ping 8.8.8.8 (direct via $iface_8888, bypasses VPN -- tests ISP)"
+  else
+    echo "-- ping 8.8.8.8 (via $iface_8888 -- tests VPN tunnel)"
+  fi
+  wait "$pid_ping_8888"
+  tail -5 "$tmp_ping_8888"
+
+  echo
+  if [ -z "$iface_1111" ]; then
+    echo "-- ping 1.1.1.1 (route unknown)"
+  elif [ "$iface_1111" = "$wifi_dev" ]; then
+    echo "-- ping 1.1.1.1 (direct via $iface_1111, bypasses VPN -- tests ISP)"
+  else
+    echo "-- ping 1.1.1.1 (via $iface_1111 -- tests VPN tunnel)"
+  fi
+  wait "$pid_ping_1111"
+  tail -5 "$tmp_ping_1111"
+
+  echo
+  echo "-- DNS lookup apple.com"
+  run_timeout "$CMD_TIMEOUT" dscacheutil -q host -a name apple.com 2>&1
+
+  echo
+  echo "-- HTTP to captive.apple.com (Apple's reachability probe)"
+  run_timeout "$CMD_TIMEOUT" curl -sS -o /dev/null -w 'http=%{http_code} dns=%{time_namelookup}s connect=%{time_connect}s total=%{time_total}s\n' \
+    --max-time "$CMD_TIMEOUT" http://captive.apple.com/hotspot-detect.html 2>&1
+
+  section "nearby wifi networks (visible APs)"
+  wait "$pid_nearby"
+  awk '/Other Local Wi-Fi Networks/,/^$/' "$tmp_nearby" | head -60
+  echo "(if empty, run: sudo wdutil info)"
+
+  section "recent wifi-related system log (last 5 min)"
+  wait "$pid_syslog"
+  tail -80 "$tmp_syslog"
+
+  echo
+  echo "########## end $ts ##########"
+
+  rm -f "$tmp_wdutil" "$tmp_nearby" "$tmp_syslog" \
+        "$tmp_ping_gw" "$tmp_ping_wgw" "$tmp_ping_8888" "$tmp_ping_1111"
+}
+
+show_recent_logs() {
+  run_timeout 15 log show --last 30m --style compact \
+    --predicate 'subsystem == "com.apple.wifi" OR process == "wifid" OR process == "airportd" OR eventMessage CONTAINS[c] "disassociat" OR eventMessage CONTAINS[c] "deauth" OR eventMessage CONTAINS[c] "roam"' \
+    2>&1
+}
+
+tail_log() {
+  if [ ! -s "$LOG_FILE" ]; then
+    echo "no snapshots yet at $LOG_FILE"
+    exit 1
+  fi
+  # Print everything from the last "##########" header to EOF.
+  awk '/^########## [0-9]/{buf=""} {buf=buf $0 "\n"} END{printf "%s", buf}' "$LOG_FILE"
+}
+
+case "${1:-}" in
+  --watch)
+    interval="${2:-10}"
+    echo "watching every ${interval}s; Ctrl-C to stop. logging to $LOG_FILE"
+    while true; do
+      snapshot | tee -a "$LOG_FILE"
+      sleep "$interval"
+    done
+    ;;
+  --tail)
+    tail_log
+    ;;
+  --logs)
+    show_recent_logs
+    ;;
+  -h|--help)
+    sed -n '2,12p' "$0" | sed 's/^# \{0,1\}//'
+    ;;
+  "")
+    snapshot | tee -a "$LOG_FILE"
+    echo
+    echo "appended to $LOG_FILE"
+    ;;
+  *)
+    echo "unknown arg: $1" >&2
+    exit 2
+    ;;
+esac

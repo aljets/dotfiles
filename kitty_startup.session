@@ -1,1 +1,0 @@
-launch --hold fish -i -c "sync_skills ~/tools/dotfiles/skills; sync_skills ~/repos/dotfiles/skills"

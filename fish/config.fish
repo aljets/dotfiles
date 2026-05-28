@@ -25,8 +25,12 @@ pydev
 #status is-interactive; and pyenv init - | source
 
 set -gx EDITOR vim
+
+# Sync skills from dotfiles to Claude/Crush
+sync_skills ~/tools/dotfiles/skills &
+sync_skills ~/repos/dotfiles/skills &
 # Add openjdk for java stuff (withokta only?)
-fish_add_path ~/.fzf/bin $brew_install_directory'/bin' ~/.pyenv/bin ~/bin ~/.okta/bin
+fish_add_path ~/.fzf/bin $brew_install_directory'/bin' ~/.pyenv/bin ~/bin ~/.okta/bin ~/.local/bin
 fish_add_path /opt/homebrew/opt/openjdk/bin
 
 # Use ag for fzf initialization; show hidden files
@@ -58,6 +62,8 @@ set -x FZF_DEFAULT_OPTS '
 
 # kitty
 alias title="kitty @ set-tab-title"
+alias kr='kitty --session ~/.config/kitty/last_session.conf'
+alias ks='kitty @ action save_as_session --use-foreground-process --save-only ~/.config/kitty/last_session.conf && sed -i \'\' \'s/launch claude$/launch claude --resume/\' ~/.config/kitty/last_session.conf'
 # kitty is "proper" and sets its own TERM, have to reset to play nice when ssh'ing
 alias s="env TERM=xterm-256color kitty +kitten ssh"
 alias ssh='env TERM=xterm-256color ssh'

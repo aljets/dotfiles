@@ -2,6 +2,9 @@
 " Forgot why this shell line was necessary??
 " set shell=/bin/sh " while using fish
 set nocompatible
+set lazyredraw
+set termguicolors
+let g:zenburn_high_Contrast=1
 
 " =============== Plugin Initialization ==============
 " First run: $ curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
@@ -12,7 +15,6 @@ call plug#begin('~/.vim/plugged')
 Plug 'jnurmine/Zenburn'
 Plug 'sickill/vim-monokai'
 " temporarily try nord
-set termguicolors
 Plug 'jcypret/nord-vim-midnight'
 
 " File plugins
@@ -56,7 +58,6 @@ call plug#end()
 
 " ================ General Config ====================
 let &t_Co=256
-let g:zenburn_high_Contrast=1
 " silent! colorscheme zenburn    " formerly: wombat256. `silent!` is b/c this colorscheme is installed via vim-plug, which must run with the vimrc loaded before the colorscheme is loaded
 " seoul256 is like zenburn but with some different contrasts. Lots of nice
 " features. Test when have time. However, maybe too low contrast.
@@ -74,7 +75,7 @@ set directory=~/.vimbackup//   " Change .swp files from being place in dir
 " set the dictionary, which allows things like tab completion of dictionary words
 set dictionary-=/usr/share/dict/words dictionary+=/usr/share/dict/words
 set nofoldenable               " for vim-fugitive, which seems to fold by default :\
-let &t_ut=''                   " Turn off background-color erase so navigating VIM file results in sane VIM background.
+" let &t_ut=''                   " Turn off background-color erase so navigating VIM file results in sane VIM background. (Disabled: causes blank screen on startup in Kitty with termguicolors)
 
 " ================ Search ===========================
 set ignorecase " Case-insensitive except when using uppercase
@@ -202,7 +203,7 @@ let g:fzf_action = {
 
 " ================ Explorer =========================
 " let g:netrw_list_hide= netrw_gitignore#Hide() " Use .gitignore for ignored files; cycle through w/ `a`
-autocmd VimEnter * let g:netrw_list_hide = netrw_gitignore#Hide()
+" autocmd VimEnter * let g:netrw_list_hide = netrw_gitignore#Hide()
 let g:netrw_liststyle = 0                     " Tree-like explorer (cycle through with 'i'). thin/long/tree 0/1/3
 let g:netrw_banner = 0                        " Remove banner (cycle through with 'I')
 " let g:netrw_sort_options = 'i'              " Ignore case in sort
