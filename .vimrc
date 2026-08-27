@@ -124,6 +124,11 @@ nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
+" Move windows natively from terminal mode without freezing it
+tnoremap <C-H> <C-W>h
+tnoremap <C-J> <C-W>j
+tnoremap <C-K> <C-W>k
+tnoremap <C-L> <C-W>l
 " quick save/exit
 noremap <Leader>w :w<CR>
 noremap <Leader>q :q<CR>
@@ -142,8 +147,9 @@ nnoremap Q @q
 vnoremap Q :norm @q<cr>
 " Go to explorer with '-'
 nnoremap - :Ex<cr>
-" Remape escape in terminal to do what it does in insert mode
-tnoremap <ESC> <C-\><C-n>
+" Remap escape in terminal to do what it does in insert mode
+" This doesn't work in fish/kitty
+" tnoremap <ESC> <C-\><C-n>
 " ALE isort quickfix
 let g:ale_python_isort_options = ''
 augroup your_group

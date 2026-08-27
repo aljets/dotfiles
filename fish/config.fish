@@ -123,3 +123,7 @@ set fish_pager_color_progress cyan
 function fc
     commandline -r $history[$argv[1]..1] && edit_command_line_buffer
 end
+
+# bun
+set --export BUN_INSTALL "$HOME/.bun"
+set --export PATH $BUN_INSTALL/bin $PATH

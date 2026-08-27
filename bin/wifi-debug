@@ -124,11 +124,7 @@ snapshot() {
     ap_mac=$(arp -n -i "$wifi_dev" "$wgw" 2>/dev/null | awk '{print $4}')
   fi
 
-  # BSSID via airport -I (wdutil redacts it; airport may hang so use short timeout)
-  local ap_bssid=""
-  ap_bssid=$(run_timeout 3 \
-    /System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport -I 2>/dev/null \
-    | awk '/ BSSID:/{print $2}')
+  # BSSID: airport removed in macOS 15, wdutil/system_profiler redact it -- not available
 
   # VPN state
   local vpn_state=""
@@ -142,8 +138,11 @@ snapshot() {
 
   section "AP identification"
   echo "WiFi gateway IP : ${wgw:-(none)}  via ${wifi_dev:-en0}"
-  echo "Gateway MAC     : ${ap_mac:-(ARP incomplete -- gateway not responding)}"
-  echo "Associated BSSID: ${ap_bssid:-(unavailable -- airport timed out or not associated)}"
+  if [ -n "$wgw" ] && [ -n "$wifi_dev" ]; then
+    arp -n -i "$wifi_dev" "$wgw" 2>/dev/null || echo "Gateway MAC     : (no ARP entry)"
+  else
+    echo "Gateway MAC     : (no WiFi gateway -- not on WiFi or no scoped route)"
+  fi
   echo "VPN             : ${vpn_state:-(AnyConnect not responding or not installed)}"
 
   section "wdutil info (wifi state, signal, channel, BSSID)"
