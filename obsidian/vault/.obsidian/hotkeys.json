@@ -1,0 +1,10 @@
+{
+  "templater-obsidian:_templates/daily.md": [
+    {
+      "modifiers": [
+        "Ctrl"
+      ],
+      "key": "D"
+    }
+  ]
+}

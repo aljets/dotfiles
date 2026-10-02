@@ -1,0 +1,14 @@
+{
+  "templates_folder": "_templates",
+  "trigger_on_file_creation": true,
+  "enable_folder_templates": true,
+  "folder_templates": [
+    {
+      "folder": "journal",
+      "template": "_templates/daily.md"
+    }
+  ],
+  "enabled_templates_hotkeys": [
+    "_templates/daily.md"
+  ]
+}
