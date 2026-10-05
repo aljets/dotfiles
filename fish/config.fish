@@ -8,7 +8,7 @@ set --local brew_install_directory /opt/homebrew
 # `kitty` doesn't set this even if set at OS level via `chsh` (but iTerm seems to)
 set -gx SHELL $brew_install_directory'/bin/fish'
 # ugly solution to getting env vars `$GITLAB_URL` and `$GIT_REPO_ROOT`, etc.
-source ~/repos/dotfiles/.work_fish_config
+test -f ~/repos/dotfiles/.work_fish_config; and source ~/repos/dotfiles/.work_fish_config
 
 # Add dotfiles subdir for fish function path
 set fish_function_path ~/.config/fish/functions_from_dotfiles $fish_function_path

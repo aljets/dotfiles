@@ -2,9 +2,10 @@ Dotfiles
 =========
 
 Note that the `.gitconfig` assumes this repo is cloned to `~/tools/dotfiles`,
-personal name and email are in `~/tools/.gitconfig_personal` and that any
-work-related settings (basically just name and email) are in
-`~/repos/dotfiles/.gitconfig_work`.
+personal name and email are in `~/tools/.gitconfig_personal` (written by
+dev-machine-tools, not in this repo) and that work-related settings live in a
+private `~/repos/dotfiles`.
+See `work-dotfiles.md` for what that repo needs.
 
 Tool usage
 =========

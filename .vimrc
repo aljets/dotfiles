@@ -21,6 +21,7 @@ Plug 'jcypret/nord-vim-midnight'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'tpope/vim-fugitive'            " Handy Git integration
+Plug 'tpope/vim-obsession'           " Continuously updated sessions (used by kitty session restore)
 Plug 'shumphrey/fugitive-gitlab.vim' " Allows GitLab urls in vim-fugitive
 Plug 'tpope/vim-rhubarb'             " Allows GitHub urls in vim-fugitive
 Plug 'junegunn/gv.vim'               " `:GV` (commits), `GV!` (current file), `GV?` (loc list current file!)
